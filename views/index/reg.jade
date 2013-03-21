@@ -1,0 +1,40 @@
+extends layout/layout
+block content
+  #pjax-index.container
+    .title.reg-info 入住社区
+    .content
+      .main
+        form.form.form-inline(method="post",action="/reg")
+          fieldset
+            .form-item
+              label(for="username") 用户名
+              input#username(type="text",name="username")
+            .form-item
+              label(for="password") 密码
+              input#password(type="password",name="password")
+            .form-item
+              label(for="re-password") 重复密码
+              input#re-password(type="password",name="re-password")
+            .form-item
+              label(for="sex") 性别
+              select#sex(name="sex")
+                option(value="1") 男
+                option(value="2") 女
+                option(value="3") 其他
+            .form-item
+              label 出生年月
+              select#birthYear(name="birthYear")
+                -for(var i=1900;i<=new Date().getFullYear();i++)
+                  option(value="#{i}")!{i}年
+              select#birthMonth(name="birthMonth")
+                -for(var i=1;i<=12;i++)
+                  option(value="#{i}")!{i}月
+              select#birthDay(name="birthDay")
+                -for(var i=1;i<=31;i++)
+                  option(value="#{i}")!{i}日
+            .form-item.form-actions
+              button.btn(type="submit") 注册
+    .sidebar
+      p 已经有帐号了？
+      p
+        a.btn-reply(href="/login") 立即登陆
