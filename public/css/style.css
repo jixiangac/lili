@@ -1,8 +1,24 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
+/**
+ * STYLE.CSS
+ */
 
-a {
-  color: #00B7FF;
+/*= Login && Register
+-----------------------*/
+.header{
+  height: 57px;
+  margin: 0 auto 38px;
+  padding: 100px 0 0;
+}
+.header h1{
+   font-size: 40px;
+  text-align: center;
+  color: #888;
+}
+.login-box fieldset{
+  border: 0 none;
+  margin: 0;
+  padding: 18px 27px;
+}
+#reg-box{
+  margin-top:80px;
 }

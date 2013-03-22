@@ -8,7 +8,7 @@ var config = require('../config');
 
 var index = function(req,res){
   if(req.method == 'GET'){
-    res.render('reg',
+    res.render('./index/reg',
       {
         title : config.name
        ,user :  req.session.user

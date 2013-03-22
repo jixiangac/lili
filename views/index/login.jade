@@ -1,4 +1,21 @@
 extends ../layout/layout
 block content
   .container
-    p 明天开始攻击
+    .header
+      h1 《程序设计基础》网上答疑系统
+    #login-box.shadow-box.login-box
+      form.form-inline(action="")
+        .legend  问答系统登入
+        hr
+        hr.decoration
+        .hint
+        fieldset
+          .form-item
+            label 用户名
+            input#username(type="text",placeholder="用户名")
+          .form-item
+            label 密码
+            input#password(type="password",placeholder="密码")
+          .form-item.form-actions
+            button.btn(type='submit') 登入
+

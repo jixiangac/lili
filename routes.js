@@ -11,8 +11,8 @@ module.exports = function(app){
   //-------------------
   //       登陆
   //-------------------
-  app.get('/login',login.index);
-  app.post('/login',login.index);
+  app.get('/',login.index);
+  app.post('/',login.index);
   //-------------------
   //      注册
   //-------------------
