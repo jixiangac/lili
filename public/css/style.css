@@ -1,7 +1,8 @@
 /**
  * STYLE.CSS
  */
-
+@import "base.css";
+@import "tip.css";
 /*= Login && Register
 -----------------------*/
 .header{

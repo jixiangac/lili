@@ -14,7 +14,7 @@ var index = function(req,res){
        ,user :  req.session.user
       });
   }else if(req.method == 'POST'){
-    if(req.body['re-password'] != req.body['password']){
+    if(req.body['repassword'] != req.body['password']){
       return res.json({flg:0,pwderror:1,msg:'密码不一致'});
     }
     //生成口令散列

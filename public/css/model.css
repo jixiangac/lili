@@ -1,0 +1,59 @@
+/**
+ * Models
+ */
+ /*--------------------------
+        阴影盒子
+   -------------------------*/
+.shadow-box{
+  color: #555;
+  width: 480px;
+  min-height: 300px;
+  margin: 0 auto;
+  border: 1px solid #dbdbdb;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-shadow: 1px 1px 8px rgba(199,199,199,0.25), -1px -1px 8px rgba(199,199,199,0.25), 0 1px 1px #ffffff inset;
+  -moz-box-shadow: 1px 1px 8px rgba(199,199,199,0.25), -1px -1px 8px rgba(199,199,199,0.25), 0 1px 1px #ffffff inset;
+  box-shadow: 1px 1px 8px rgba(199,199,199,0.25), -1px -1px 8px rgba(199,199,199,0.25), 0 1px 1px #ffffff inset;
+  background-color: #ffffff;
+  background-image: -moz-linear-gradient(center top , #f4f4f4, #ffffff);
+  background-image: -ms-linear-gradient(top, #f4f4f4, #ffffff);
+  background-image: -webkit-linear-gradient(top, #f4f4f4, #ffffff);
+  background-image: -o-linear-gradient(top, #f4f4f4, #ffffff);
+  background-image: linear-gradient(top, #f4f4f4, #ffffff);
+  box-shadow: #c7c7c7 0px 0px 1px\0;
+  *box-shadow: #c7c7c7 0px 0px 1px;
+  -pie-background: linear-gradient(#f4f4f4, #ffffff);
+  position: relative;
+  z-index: 1002;
+ }
+.shadow-box .legend {
+  display: block;
+  width: 390px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #5d5d5d;
+  line-height: 14px;
+  padding: 15px 0 15px 30px;
+  margin-bottom: 0;
+  *padding: 15px 0 8px 30px;
+}
+.shadow-box hr {
+  width: 410px;
+  border: 0;
+  border-top: 2px solid #d5d5d5;
+  border-bottom: 1px solid #ffffff;
+  margin: 0 auto 0 auto;
+}
+.shadow-box hr.decoration {
+  width: 140px;
+  border-top: 2px solid #ff6600;
+  position: absolute;
+  left: 5px;
+  top: 44px;
+}
+.shadow-box .hint {
+  height: 30px;
+  padding: 10px 50px 0 50px;
+}

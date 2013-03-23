@@ -1,0 +1,126 @@
+/**
+ * Tips.css
+ */
+
+/*-----------------
+      遮罩层
+  ----------------*/
+.overlay{
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  opacity: 0;
+  filter: alpha(opacity=0);
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 99;
+}
+/*----------------
+      弹出层
+  ----------------*/
+.popbox{
+  width: 457px;
+  position: fixed;
+  border: 5px solid #8f8e8e;
+  border-radius: 5px;
+  left: 50%;
+  top: 50%;
+  overflow: hidden;
+  margin-left: -229px;
+  background: #fff;
+  z-index: 999;
+}
+.popbox-bd{
+  padding: 20px;
+}
+.popbox .close-btn{
+  display: block;
+  width: 21px;
+  height: 21px;
+  background: url(../images/detail.png) -448px -2px no-repeat;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.popbox .close{
+  cursor: pointer;
+}
+.popbox-bd h3{
+  font-weight: bold;
+  border-bottom: 2px solid #f1f2f3;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+/*------------------
+    灰色提示条
+  -----------------*/
+.grey-tips{
+    background-color: #F1F1F1;
+    border: 1px solid #DCDCDC;
+    line-height: 22px;
+    margin: 10px 0 0;
+    padding: 15px 20px;
+}
+/*------------------
+       小提示
+  -----------------*/
+.tiny-tips-wrap {
+    left: 0;
+    position: fixed;
+    text-align: center;
+    top: 75%;
+    width: 100%;
+    z-index: 100002;
+}
+.tiny-tips,.tiny-right,.tiny-error,.tiny-end,.tiny-load{
+    background-image: url(../images/ajax_tips.png);
+    background-repeat: no-repeat;
+    color: #606060;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: bold;
+    height: 67px;
+    line-height: 67px;
+}
+.tiny-tips{
+    background-position: 0 -213px;
+    background-repeat: repeat-x;
+    margin: 0 auto;
+    padding: 0 18px 0 30px;
+    position: relative;
+}
+.tiny-loading{
+  background: url(../images/load.gif) no-repeat;
+  width: 25px;
+  height: 25px;
+  display: block;
+  position: absolute;
+  top: 20px;
+  left: 0;
+}
+
+.tiny-tips .tiny-load{
+   background-position: -14px 0;
+  left: -13px;
+  position: absolute;
+  top: 0;
+  width: 13px;
+}
+.tiny-tips .tiny-error,.tiny-tips .tiny-right{
+  background-position: -14px -71px;
+  left: -66px;
+  position: absolute;
+  top: 0;
+  width: 66px;
+}
+.tiny-tips .tiny-right{
+  background-position: -14px 0;
+}
+.tiny-tips .tiny-end{
+  background-position: 0 0;
+  position: absolute;
+  right: -7px;
+  top: 0;
+  width: 7px;
+}

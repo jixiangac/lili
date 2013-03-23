@@ -1,0 +1,111 @@
+/**
+ * Reset.css
+ */
+/*= Reset default browser CSS. Based on work by Eric 
+    Meyer: http://meyerweb.com/eric/tools/css/reset/index.html
+ ---------------------------------------------*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td{
+  border:0;
+  font-family:inherit;
+  font-size:100%;
+  font-style:inherit;
+  font-weight:inherit;
+  margin:0;
+  outline:0;
+  padding:0;
+  vertical-align:baseline;
+}
+ol, ul{
+  list-style:none;
+}
+table{ /* tables still need 'cellspacing="0"' in the markup */
+  border-collapse:separate;
+  border-spacing:0;
+}
+caption, th, td{
+  font-weight:normal;
+  text-align:left;
+}
+blockquote:before, blockquote:after,
+q:before, q:after{
+  content:"";
+}
+blockquote, q{
+  quotes:"" "";
+}
+textarea{
+  resize:none;
+}
+a{
+  text-decoration: none;
+  color: #6E3939;
+}
+a img{
+  border:0;
+}
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section{
+  display:block;
+}
+
+::-webkit-selection,
+::-moz-selection,
+::selection{
+  background-color:#0099cc;
+  color:#fff; }
+
+html, body{
+  margin:0;
+  padding:0;
+  -webkit-font-smoothing:antialiased;
+  /* prevent subpixel antialiasing, which thickens the text */
+  /* text-rendering: optimizeLegibility; */
+  /* turned off ligatures due to bug 5945455 */ }
+body{
+  color:#222;
+  line-height: 1;
+  font:12px/1.5 "Hiragino Sans GB", "WenQuanYi Micro Hei", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background: #f7f7f7;
+}
+p{
+  margin-bottom: 10px;
+  line-height: 1.8;
+  text-indent: 2em;
+}
+.non-indent p{
+  text-indent: 0;
+}
+.fl-r,.fl-l{
+  display: inline;
+}
+.fl-r{
+  float: right;
+}
+.fl-l{
+  float: left;
+}
+.m10{
+  margin-left: 10px;
+}
+.m20{
+  margin-left: 20px;
+}
+.hide{
+  display: none;
+}
+/*清除浮动*/
+.clearfix:before, .clearfix:after,.hd:before,.hd:after{ content:"."; display:block; height:0; visibility:hidden }
+.clearfix:after,.hd:after{ clear:both }
+.clearfix,.hd{ zoom:1 }
+
+::-webkit-scrollbar{ width:10px; margin-right:2px }
+::-webkit-scrollbar-track-piece{background-color:#F5F5F5;border-left:1px solid #D2D2D2;}
+::-webkit-scrollbar-thumb{ background:#CBCBCB; width:10px }
+::-webkit-scrollbar-thumb:hover{ background:#909090 }

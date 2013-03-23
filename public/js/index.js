@@ -2,5 +2,8 @@
  * Index.js
  */
 define(function(require){
-  window.$ = require('jquery');
+  var $ = require('jquery');
+  window.$ = $;
+  var ajax = require('./models/ajax');
+  $('.ajax-form').on('submit',ajax.ajaxForm);
 })

@@ -5,7 +5,6 @@ seajs.config({
   },
   // Add plugins
   plugins: ['shim'],
-
   // Configure shim for non-CMD modules
   shim: {
     'jquery': {

@@ -2,7 +2,7 @@ extends ../layout/layout
 block content
   .container
     #reg-box.shadow-box.login-box
-      form.form-inline(method="post",action="/reg")
+      form#reg-form.form-inline.ajax-form(method="post",action="/reg")
         .legend  问答系统注册
         hr
         hr.decoration
@@ -10,13 +10,13 @@ block content
         fieldset
           .form-item
             label(for="username") 用户名
-            input#username(type="text",name="username")
+            input#username(type="text",name="username",class="require")
           .form-item
             label(for="password") 密码
-            input#password(type="password",name="password")
+            input#password(type="password",name="password",class="require")
           .form-item
-            label(for="re-password") 重复密码
-            input#re-password(type="password",name="re-password")
+            label(for="repassword") 重复密码
+            input#re-password(type="password",name="repassword",class="require")
           .form-item
             label(for="sex") 性别
             select#sex(name="sex")
