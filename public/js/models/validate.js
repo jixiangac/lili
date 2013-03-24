@@ -13,6 +13,12 @@ define(function(require,exports,module){
       ,tips : '请输入用户名！'
       ,error : '用户名由字母、数字、下划线组成！'
     }
+   ,'email' : {
+      name : '邮箱'
+     ,rex : '^([a-zA-Z0-9]+[_|\\_|\\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\\_|\\.]?)*[a-zA-Z0-9]+\\.[a-zA-Z]{2,3}$'
+     ,tips : '请输入邮箱'
+     ,error : '邮箱格式出错！'
+   }
    ,'password' : {
       name : '密码'
      ,rex : '^[\\w]{6,12}$'

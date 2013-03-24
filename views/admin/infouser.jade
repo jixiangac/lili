@@ -1,0 +1,129 @@
+extends layout/layout
+block content
+  //内容区
+  .main
+    if cat == 1
+      form.form-inline.ajax-form(action="/admin/user/info?cat=1&uid="+people._id,method="post")
+        table.table.order-table
+          caption.bread
+            a.parent(href="/admin/user?cat=1") 学生列表
+            a &nbsp;»&nbsp;学生个人信息
+          thead.tab-title
+            tr.separate
+              th(colspan="2")
+          tbody
+            tr
+              td 用户名
+              td.aleft=people.username
+            tr
+              td 邮箱
+              td.aleft=people.email
+            tr
+              td 性别
+              td.aleft
+                -var select= {'1':false,'2':false,'3':false};
+                each item,key in select
+                  if people.sex == key
+                    -select[key]=true;
+                    -break;
+                select#sex(name="sex")
+                  option(value="1",selected=select["1"]) 男
+                  option(value="2",selected=select["2"]) 女
+                  option(value="3",selected=select["3"]) 其他
+            tr
+              td 注册时间
+              td.aleft=people.regdate
+            tr
+              td 最近登入时间
+              td.aleft=people.logindate
+            tr
+              td 密码
+              td.aleft
+                input#password(type="password",name="password")
+            tr
+              td
+              td.aleft
+                button.btn(type="submit") 修改  
+    if cat == 2
+      form.form-inline.ajax-form(action="/admin/user/info?cat=2&uid="+people._id,method="post")
+        table.table.order-table
+          caption.bread
+            a.parent(href="/admin/user?cat=2") 老师列表
+            a &nbsp;»&nbsp;老师信息
+          thead.tab-title
+            tr.separate
+              th(colspan="2")
+          tbody
+            tr
+              td 用户名
+              td.aleft=people.username
+            tr
+              td 邮箱
+              td.aleft=people.email
+            tr
+              td 性别
+              td.aleft
+                -var select= {'1':false,'2':false,'3':false};
+                each item,key in select
+                  if people.sex == key
+                    -select[key]=true;
+                    -break;
+                select#sex(name="sex")
+                  option(value="1",selected=select["1"]) 男
+                  option(value="2",selected=select["2"]) 女
+                  option(value="3",selected=select["3"]) 其他
+            tr
+              td 所属学校
+              td.aleft
+                input#school(type="text",name="school",value="#{people.school}")
+            tr
+              td 最近登入时间
+              td.aleft=people.logindate
+            tr
+              td 密码
+              td.aleft
+                input#password(type="password",name="password")
+            tr
+              td
+              td.aleft
+                button.btn(type="submit") 修改  
+    if cat == 3
+      form.form-inline.ajax-form(action="/admin/user/info?cat=3&uid="+people._id,method="post")
+        table.table.order-table
+          caption.bread
+            a.parent(href="/admin/user?cat=3") 管理员列表
+            a &nbsp;»&nbsp;增加管理员
+          thead.tab-title
+            tr.separate
+              th(colspan="2")
+          tbody
+            tr
+              td 用户名
+              td.aleft=people.username
+            tr
+              td 邮箱
+              td.aleft=people.email
+            tr
+              td 级别
+              -var select= ['系统管理员','小小管理员','临时管理员'];
+              td.aleft
+                select#rank(name="rank")
+                  each key,i in select
+                    -var selected=false;
+                    if people.rank == key
+                      -selected=true;
+                    option(value=key,selected=selected)= key
+            tr
+              td 最近登入时间
+              td.aleft=people.logindate
+            tr
+              td 密码
+              td.aleft
+                input#password(type="password",name="password")
+            tr
+              td
+              td.aleft
+                button.btn(type="submit") 修改
+
+          
+    

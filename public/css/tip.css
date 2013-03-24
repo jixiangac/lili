@@ -56,11 +56,12 @@
     灰色提示条
   -----------------*/
 .grey-tips{
-    background-color: #F1F1F1;
-    border: 1px solid #DCDCDC;
+    background: #f6f6f6;
+    border: 1px solid #dcdcdc;
     line-height: 22px;
-    margin: 10px 0 0;
+    margin: 10px 0;
     padding: 15px 20px;
+    border-radius: 3px;
 }
 /*------------------
        小提示

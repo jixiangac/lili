@@ -1,5 +1,37 @@
-extends layout
-
+extends ../layout/layout
 block content
-  h1= title
-  p Welcome to #{title}
+  if !user
+    .container
+      .header
+        h1 《程序设计基础》网上答疑系统
+      #login-box.shadow-box.login-box
+        form#login-form.form-inline.ajax-form(action="/",method="post")
+          .legend  问答系统登入
+          hr
+          hr.decoration
+          .hint
+          fieldset
+            .form-item
+              label 用户名
+              input#username(type="text",name="username",class="require",placeholder="用户名")
+            .form-item
+              label 密码
+              input#password(type="password",name="password",class="require",placeholder="密码")
+            .form-item.form-actions
+              label.inline
+                input(type="radio",name="cat",value="1",checked)
+                | 学生 
+              label
+                input(type="radio",name="cat",value="2")
+                | 教师
+              label
+                input(type="radio",name="cat",value="3") 
+                | 管理员
+
+            .form-item.form-actions
+              button.btn(type='submit') 登入
+        p 还没注册?  <a href="/reg">点我注册</a>
+  else
+    p 哈哈
+
+

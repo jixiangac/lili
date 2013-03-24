@@ -4,6 +4,23 @@
 
 /*= Button & Input
  ----------------------*/
+ /*简单按钮*/
+.reply{
+  float:right;
+  margin-right: 5px;
+}
+.btn-reply{
+  cursor: pointer;
+  margin: 0 5px;
+}
+.btn-reply:hover{
+  background:#37A;
+  color: #fff;
+}
+.btn-reply:active{
+  background:#F93;
+  color: #fff;
+}
  /*按钮*/
 .common-btn{
   cursor: pointer;
@@ -186,7 +203,7 @@
    vertical-align: baseline;
    font-size: 14px;
  }
- .form-inline input,.form-inline select{
+ .form-inline input[type="text"],.form-inline input[type="password"],.form-inline select{
   border:1px solid #ccc;  
   border-radius:4px;
   height:20px;
@@ -209,8 +226,11 @@
   margin-top:10px;
   padding-left:90px;
  }
+ .form-actions label{
+   text-align:left;
+ }
  .form-inline select{
-   width:93px;
+   width:110px;
    height:30px;
    margin-right: 4px;
  }

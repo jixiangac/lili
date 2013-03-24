@@ -12,6 +12,9 @@ block content
             label(for="username") 用户名
             input#username(type="text",name="username",class="require")
           .form-item
+            label(for="email") 邮箱
+            input#email(type="text",name="email",class="require")
+          .form-item
             label(for="password") 密码
             input#password(type="password",name="password",class="require")
           .form-item
@@ -25,3 +28,4 @@ block content
               option(value="3") 其他
           .form-item.form-actions
             button.btn(type="submit") 注册
+      p 已经有帐号？ <a href="/">点我登入</a>

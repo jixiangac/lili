@@ -1,0 +1,76 @@
+extends layout/layout
+block content
+  //内容区
+  .main
+    if cat == 2
+      form.form-inline.ajax-form(action="/reg?cat=2",method="post")
+        table.table.order-table
+          caption.bread
+            a.parent(href="/admin/user?cat=2") 老师列表
+            a &nbsp;»&nbsp;增加老师
+          thead.tab-title
+            tr.separate
+              th(colspan="2")
+          tbody
+            tr
+              td 用户名
+              td.aleft
+                input#username(type="text",name="username",class="require")
+            tr
+              td 邮箱
+              td.aleft
+                input#email(type="text",name="email",class="require")
+            tr
+              td 性别
+              td.aleft
+                select#sex(name="sex")
+                  option(value="1") 男
+                  option(value="2") 女
+                  option(value="3") 其他
+            tr
+              td 学校
+              td.aleft
+                input#school(type="text",name="school")
+            tr
+              td 密码
+              td.aleft
+                input#password(type="password",name="password",class="require")
+            tr
+              td
+              td.aleft
+                button.btn(type="submit") 增加
+    if cat == 3
+      form.form-inline.ajax-form(action="/reg?cat=3",method="post")
+        table.table.order-table
+          caption.bread
+            a.parent(href="/admin/user?cat=3") 管理员列表
+            a &nbsp;»&nbsp;增加管理员
+          thead.tab-title
+            tr.separate
+              th(colspan="2")
+          tbody
+            tr
+              td 用户名
+              td.aleft
+                input#username(type="text",name="username",class="require")
+            tr
+              td 邮箱
+              td.aleft
+                input#email(type="text",name="email",class="require")
+            tr
+              td 级别
+              td.aleft
+                select#rank(name="rank")
+                  option(value="系统管理员") 系统管理员
+                  option(value="小小管理员") 小小管理员
+                  option(value="临时管理员") 临时管理员
+            tr
+              td 密码
+              td.aleft
+                input#password(type="password",name="password",class="require")
+            tr
+              td
+              td.aleft
+                button.btn(type="submit") 增加
+          
+    

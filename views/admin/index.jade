@@ -1,0 +1,28 @@
+extends layout/layout
+block content
+  //内容区
+  .main
+    table.table.order-table
+      caption 学生列表
+      thead.tab-title
+        tr.separate
+          th(colspan="5")
+        tr
+          th UID
+          th 用户名
+          th 邮箱
+          th 性别
+          th 最近登入时间
+          th 操作
+      tbody
+        tr
+          td 1
+          td jixiangac
+          td jixiangac@gmail.com
+          td 男
+          td 2012-12-34 20:20:20
+          td
+            a.btn-reply(href="#") 查看
+            a.btn-reply(href="#") 修改
+            
+    

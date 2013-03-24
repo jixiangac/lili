@@ -1,0 +1,33 @@
+/**
+ * Admin.css
+ */
+@import "base.css";
+@import "form.css";
+@import "tip.css";
+@import "sidebar.css";
+@import "table.css";
+/*头部*/
+#header h1{
+  text-align: center;
+  font-size: 40px;
+  color: #666;
+}
+/*Conent*/
+#main{
+  border: 1px solid #d7d7d7;
+  border-radius: 3px;
+}
+.content{
+  width: 100%;
+  float: left;
+}
+.main{
+  margin-left: 200px;
+  height: 500px;
+  background:#fff;
+  padding: 20px;
+}
+.sideleft{
+  float: left;
+  margin-left: -100%;
+}

@@ -1,9 +1,10 @@
-/**
- * Models
- */
- /*--------------------------
-        闃村奖鐩掑瓙
-   -------------------------*/
+/*--------------------------------*
+ *             Models             *                   
+ *--------------------------------*/
+
+ /**
+  * 阴影盒子
+  */
 .shadow-box{
   color: #555;
   width: 480px;
@@ -56,4 +57,27 @@
 .shadow-box .hint {
   height: 30px;
   padding: 10px 50px 0 50px;
+}
+/**
+ *  分页
+ */
+.pagenav{
+  margin-top: 15px;
+}
+.pagenav a{
+  color: #7BAFA7;
+}
+.pagenav span{
+  color: #6E3939;
+}
+.pagenav .page-numbers{
+  background: #F1F2F4;
+  border-radius: 2px 2px 2px 2px;
+  display: inline-block;
+  margin: 2px;
+  padding: 2px 10px;
+}
+.pagenav .cur,.pagenav a:hover{
+  background: #7BAFA7;
+  color: #fff;
 }

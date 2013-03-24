@@ -1,0 +1,76 @@
+/**
+ * 表格类CSS
+ */
+.table-top{
+  margin-top: 20px;
+}
+.table{
+  width:100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+.table tbody tr:hover{
+  background: #f8f8f8;
+}
+.table th{
+  color: #666;
+  border-bottom: 1px solid #ddd;
+}
+.table td{
+    padding: 10px;
+}
+.table th,.table td{
+  text-align: center;
+}
+.table tr.separate{
+  background: #fff;
+  border:0;
+  height: 15px;
+  line-height: 15px;
+}
+table tr.separate th{
+  border:0;
+}
+/*订单类表格*/
+.order-table{
+  margin-top: 15px;
+  /*box-shadow: 0 0 3px #ddd;*/
+  width:100%;
+}
+.order-table td,.order-table caption,thead.tab-title th{
+  border: 1px solid #ddd;
+}
+thead.tab-title tr{
+  height : 30px;
+  line-height: 30px;
+}
+caption.bread{
+  text-align: left;
+  padding-left: 10px;
+}
+caption a.parent{
+  color: #52946F;
+}
+caption,thead.tab-title{
+  padding : 10px 0;
+  /*border-bottom: 0;*/
+  background:  #F6F6F6;
+  color: #52946F;
+  text-align: center;
+}
+.order-table tbody tr:hover,.order-table tbody tr.cur{
+  background:#EAF9E6;
+}
+.order-table .line{
+  border-bottom: 1px solid #ddd;
+}
+.order-table .reply{
+  width: 87px;
+}
+.order-table td.cat{
+  width: 26px;
+  text-align: center;
+}
+td.aleft{
+  text-align: left;
+}

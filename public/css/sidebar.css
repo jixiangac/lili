@@ -1,0 +1,53 @@
+/**
+ * 侧边栏CSS
+ */
+.sidebar{
+  width: 200px;
+  border-right: 1px solid #d7d7d7;
+}
+.sidebar .category-item{
+  width: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0 10px 0 15px;
+  line-height: 55px;
+  overflow: hidden;
+  cursor: pointer;
+}
+.category-item .name{
+  float: left;
+  font-size: 24px;
+  color: #00bbe8;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.plus{
+  background: url(/images/plus_icon.png) right center no-repeat;
+  width: 16px;
+  height: 16px;
+  background-size: 100%;
+  opacity: 0.5;
+  float: right;
+  margin-top: 20px;
+}
+.category-item li{
+  overflow: hidden;
+  cursor: pointer;
+  height: 41px;
+  border-left: 4px solid #fff;
+  border-bottom: 1px solid #ddd;
+}
+.category-item li .item{
+  display:block;
+  line-height: 41px;
+  padding-left: 20px;
+}
+.category-item li:hover{
+  background: #fafafa;
+  border-color: #ddd;
+};

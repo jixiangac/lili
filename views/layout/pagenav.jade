@@ -1,0 +1,14 @@
+if !!pages
+  if pages.max > 1
+    .pagenav
+      span.page-numbers #{pages.cur}&nbsp;&nbsp;of&nbsp;&nbsp;#{pages.max}
+      if pages.cur !==1
+        a.page-numbers(href="#{pagenav}page=#{pages.prev}",title="上一页")«
+      -for(var i=1,len=pages.max;i<=len;i++)
+         -var cur=''
+          if pages.cur == i 
+            -cur = 'cur'
+          a.page-numbers(href="#{pagenav}page=#{i}",title="第#{i}页",class=cur) #{i}
+      if pages.cur !==pages.max
+        a.page-numbers(href="#{pagenav}page=#{pages.next}",title="下一页")»
+
