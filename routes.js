@@ -6,7 +6,8 @@ var login = require('./routes/login')
 
 
 var admin = require('./routes/admin/index')
-   ,adminUser = require('./routes/admin/user.js')
+   ,adminUser = require('./routes/admin/user')
+   ,adminNotice = require('./routes/admin/notice')
 
 module.exports = function(app){
   /*===================
@@ -45,8 +46,11 @@ module.exports = function(app){
   // 查看&修改用户
   app.get('/admin/user/info',adminUser.infouser);
   app.post('/admin/user/info',adminUser.infouser);
-
-
+  //------------------
+  //     公告发布
+  //------------------
+  app.get('/admin/notice',adminNotice.index);
+  app.post('/admin/notice',adminNotice.index);
 
 
 
