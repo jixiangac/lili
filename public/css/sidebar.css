@@ -17,7 +17,7 @@
   overflow: hidden;
   cursor: pointer;
 }
-.category-item .name{
+.category-item .name a{
   float: left;
   font-size: 24px;
   color: #00bbe8;

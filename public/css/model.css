@@ -3,7 +3,7 @@
  *--------------------------------*/
 
  /**
-  * 阴影盒子
+  * 闃村奖鐩掑瓙
   */
 .shadow-box{
   color: #555;
@@ -59,7 +59,29 @@
   padding: 10px 50px 0 50px;
 }
 /**
- *  分页
+ *  鐏拌壊鐩掑瓙
+ */
+.grey-box{
+  background: #fff;
+  border: 1px solid #d7d7d7;
+  font-size: 12px;
+}
+.grey-box-hd{
+  height: 30px;
+  line-height: 30px;
+  padding-left: 7px;
+  background: #f6f6f6;
+  border-bottom: 1px solid #c8c8c8;
+  color: #888;
+}
+.grey-box-hd a{
+  margin: 0 5px;
+}
+.grey-box-bd{
+  padding: 10px;
+}
+/**
+ *  鍒嗛〉
  */
 .pagenav{
   margin-top: 15px;

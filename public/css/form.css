@@ -203,7 +203,11 @@
    vertical-align: baseline;
    font-size: 14px;
  }
- .form-inline input[type="text"],.form-inline input[type="password"],.form-inline select{
+ .form-inline input[type="text"],
+ .form-inline input[type="password"],
+ .form-inline select,
+ .form-inline textarea,
+ .bootstrap{
   border:1px solid #ccc;  
   border-radius:4px;
   height:20px;
@@ -211,9 +215,14 @@
   vertical-align: middle;
   padding: 4px 6px;
   font-size:14px;
-  width:270px;
  }
- .form-inline input:focus{
+  .form-inline input[type="text"],
+ .form-inline input[type="password"]{
+    width:270px;
+ }
+ .form-inline input:focus,
+ .form-inline textarea:focus,
+ .bootstrap:focus{
   border-color: rgba(82, 168, 236, 0.8);
   outline: 0;
   outline: thin dotted \9;

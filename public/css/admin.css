@@ -6,6 +6,7 @@
 @import "tip.css";
 @import "sidebar.css";
 @import "table.css";
+@import "kalendae.css";
 /*头部*/
 #header h1{
   text-align: center;
@@ -30,4 +31,8 @@
 .sideleft{
   float: left;
   margin-left: -100%;
+}
+/*日期*/
+.notice-date{
+  width: 68px;
 }
