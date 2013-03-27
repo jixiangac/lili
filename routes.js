@@ -8,6 +8,7 @@ var login = require('./routes/login')
 var admin = require('./routes/admin/index')
    ,adminUser = require('./routes/admin/user')
    ,adminNotice = require('./routes/admin/notice')
+   ,adminQuestion = require('./routes/admin/question')
 
 module.exports = function(app){
   /*===================
@@ -52,14 +53,18 @@ module.exports = function(app){
   app.get('/admin/notice',adminNotice.index);
   app.post('/admin/notice',adminNotice.index);
   //------------------
+  //     问题管理
+  //------------------
+  app.get('/admin/question',adminQuestion.index);
+  app.post('/admin/question',adminQuestion.index);
+  //分类&章节&专题
+  app.get('/admin/question/cat',adminQuestion.cat);
+  app.post('/admin/question/cat',adminQuestion.cat);
+  //------------------
   //    友情链接
   //------------------
   app.get('/admin/link',adminNotice.link);
   app.post('/admin/link',adminNotice.link);
-
-
-
-
   //-----------------
   //     退出
   //-----------------

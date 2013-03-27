@@ -18,7 +18,7 @@ app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.favicon());
-  app.use(express.logger('dev'));
+  // app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser());
@@ -34,6 +34,14 @@ app.configure(function(){
 
 app.configure('development', function(){
   app.use(express.errorHandler());
+});
+
+//生产环境
+app.configure('production',function(){
+  var maxAge = 3600000 * 24 * 30;
+  app.use(express.static(path.join(__dirname,'public'),{maxAge:maxAge}));
+  app.use(express.errorHandler());
+  app.set('view cache', true);
 });
 
 routes(app);

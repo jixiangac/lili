@@ -1,0 +1,76 @@
+extends layout/layout
+block content
+  //内容区
+  .main
+    if template === 1
+      table.table.order-table
+        caption #{catName}列表
+          a.fl-r.btn-reply(href="/admin/question/cat?cat=#{cat}&add=1") 添加新#{catName}
+        thead.tab-title
+          tr.separate
+            th(colspan="5")
+          tr
+            th #{catName}名称
+            th #{catName}描述
+            th 操作
+        tbody
+          if doc.length
+            each item in doc
+              tr
+                td= item.name
+                td= item.description
+                td
+                  a.btn-reply(href="/admin/question/cat?cat=#{cat}&modify=1&id=#{item._id}") 修改
+                  a.btn-reply.btn-del(href="/admin/question/cat?del=1&id=#{item._id}") 删除
+          else
+            tr
+              td(colspan="3") 没有#{catName}信息
+                a(href="/admin/question/cat?cat=#{cat}&add=1") 点击添加#{catName}
+    if template === 2
+      form.form-inline.ajax-form(action="/admin/question/cat?cat=#{cat}&add=1",method="post")
+        table.table.order-table
+          caption.bread
+            a.parent(href="/admin/question/cat?cat=#{cat}") #{catName}列表
+            a &nbsp;»&nbsp;增加新#{catName}
+          thead.tab-title
+            tr.separate
+              th(colspan="2")
+          tbody
+            tr
+              td #{catName}名称
+              td.aleft
+                input#website(type="text",name="catname")
+            tr
+              td #{catName}描述
+              td.aleft
+                textarea(style="width:270px;height:100px;",name="description")
+            tr
+              td
+              td.aleft
+                button.btn(type="submit") 增加
+    if template === 3
+      form.form-inline.ajax-form(action="/admin/question/cat?cat=#{cat}&modify=1",method="post")
+        table.table.order-table
+          caption.bread
+            a.parent(href="/admin/question/cat?cat=#{cat}") #{catName}列表
+            a &nbsp;»&nbsp;修改新#{catName}
+          thead.tab-title
+            tr.separate
+              th(colspan="2")
+          tbody
+            tr
+              td #{catName}名称
+              td.aleft
+                input#website(type="text",name="catname",value="#{doc.name}")
+            tr
+              td #{catName}描述
+              td.aleft
+                textarea(style="width:270px;height:100px;",name="description")= doc.description
+            tr
+              td
+              td.aleft
+                button.btn(type="submit") 修改     
+
+
+            
+    

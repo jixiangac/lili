@@ -10,10 +10,7 @@ exports.index = function(req,res){
    var cat = parseInt(req.query.cat,10) || 1;
    if(req.method == 'GET'){
     jixiang.count({cat:cat},'users',function(err,count){
-      if(err){
-        console.log(err)
-        return res.json({flg:0,msg:err});
-      }
+      if(err)return res.json({flg:0,msg:err});
       // 分页
       var pages = parseInt(req.query.page,10) || 1;
       var condition = {

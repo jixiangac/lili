@@ -1,0 +1,67 @@
+extends layout/layout
+block content
+  //内容区
+  .main
+    if template === 1
+      table.table.order-table
+        caption 问题列表
+          a.fl-r.btn-reply(href="/admin/question?add=1") 添加新问题
+        thead.tab-title
+          tr.separate
+            th(colspan="5")
+          tr
+            th 分类
+            th 问题
+            th 章节
+            th 专题
+            th 操作
+        tbody
+            tr
+              td JavaScript
+              td JS就是Java吗？
+              td 第六章
+              td 大话javascript
+              td
+                a.btn-reply(href="#") 查看
+                a.btn-reply.btn-del(href="#") 删除
+    if template === 2
+      form.form-inline.ajax-form(action="/admin/question?add=1",method="post")
+        table.table.order-table
+          caption.bread
+            a.parent(href="/admin/link") 问题列表
+            a &nbsp;»&nbsp;增加新问题
+          thead.tab-title
+            tr.separate
+              th(colspan="2")
+          tbody
+            tr
+              td 问题
+              td.aleft
+                input#website(type="text",name="website")
+            tr
+              td 分类
+              td.aleft
+                select
+                  option xx
+            tr
+              td 章节
+              td.aleft
+                select
+                  option xx
+            tr
+              td 专题
+              td.aleft
+                select
+                  option xx
+            tr
+              td 解答
+              td.aleft
+                textarea(style="width:270px;height:100px;",name="description")
+            tr
+              td
+              td.aleft
+                button.btn(type="submit") 增加
+
+
+            
+    

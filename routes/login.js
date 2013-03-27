@@ -8,14 +8,31 @@ var crypto = require('crypto')
 
 var index = function(req,res){
   if(req.method == 'GET'){
-    var n = 1;
+    var n = 2;
     var result = {};
     //公告
-    jixiang.get({sort:{release_time:-1},query:{last_time:{'$gte':new Date()*1}}},'notice',function(err,doc){
-      if(err)console.log(err);
+    jixiang.get({
+      sort:{release_time:-1}
+     ,query:{
+        release_time :{
+          '$lte' : new Date()*1
+        },
+        last_time : {
+          '$gte' : new Date()*1
+        }
+      }
+    },'notice',function(err,doc){
+      if(err)doc=[];
       if(doc.length)result.notice = doc[0].content;
       --n || render();
     });
+    //友情链接
+    jixiang.get({},'links',function(err,doc){
+      if(err)doc=[];
+      result.links = doc;
+      --n || render();
+    });
+
     function render(){
       res.render('./index/index',
         {

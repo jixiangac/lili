@@ -27,6 +27,11 @@ block content
                 td
                   a.btn-reply(href="/admin/link?modify=1&id=#{item._id}") 修改
                   a.btn-reply.btn-del(href="/admin/link?del=1&id=#{item._id}") 删除
+          else
+            tr
+              td(colspan="4") 还没有友情链接，
+                a(href="/admin/link?add=1") 点击添加
+      include ../layout/pagenav
     if cat == 2
       form.form-inline.ajax-form(action="/admin/link?add=1",method="post")
         table.table.order-table

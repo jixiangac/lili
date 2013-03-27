@@ -9,16 +9,18 @@ exports.index = function(req,res){
   if(req.method == 'GET'){
       var condition = {};
       condition.query = {
+        release_time :{
+          '$lte' : new Date()*1
+        },
         last_time : {
           '$gte' : new Date()*1
         }
       }
       condition.sort = {
-        release_time : 1
+        release_time : -1
       }
       jixiang.get(condition,'notice',function(err,doc){
-        if(err)console.log(err);
-        console.log(doc)
+        if(err)doc=[];
         if(doc.length){
           doc[0].release_time = dataFormat.call(new Date(doc[0].release_time),'yyyy-MM-dd hh:mm:ss')
         }
@@ -39,7 +41,7 @@ exports.index = function(req,res){
        ,content = req.body.content;
     var data = {
       release_time : time 
-     ,last_time : time + 3600000 * 24 * last
+     ,last_time : last ? (time + 3600000 * 24 * last) : time*2
      ,content : content
      ,author : req.session.user.username
     }
@@ -66,7 +68,7 @@ exports.index = function(req,res){
      }else if(modify !==0){//修改链接
        cat = 3;
        jixiang.getOne({_id:id},'links',function(err,doc){
-         if(err)consloe.log(err);
+         if(err)doc=[];
          result.linkdetail = doc;
          render();        
        });
@@ -74,7 +76,6 @@ exports.index = function(req,res){
      }else{
        jixiang.count({},'links',function(err,count){
           if(err)return res.json({flg:0,msg:err});
-          console.log(count)
           // 分页
           var pages = parseInt(req.query.page,10) || 1;
           var condition = {
@@ -92,17 +93,22 @@ exports.index = function(req,res){
           jixiang.get(condition,'links',function(err,doc){
             if(err)doc=[];
             result.link = doc;
-            render();
+            render(pageNum);
           });
        });
      }
      function render(){
-       res.render('./admin/link',{
+       var renderData = {
          title : config.name+'友情链接'
         ,user : req.session.user
         ,cat : cat
         ,result : result
-       });      
+       }
+       if(arguments.length){
+         renderData.pages = arguments[0];
+         renderData.pagenav = '/admin/link?';
+       }
+       res.render('./admin/link',renderData);      
      }
    }else if(req.method == 'POST'){
      var website = {
@@ -131,8 +137,8 @@ exports.index = function(req,res){
         var del = parseInt(req.query.del,10) || 0;
         if(del===0)return;
         jixiang.delById(id,'links',function(err){
-           if(err)return json({flg:0,msg:err});
-           return json({flg:1,msg:'删除成功！'});
+           if(err)return res.json({flg:0,msg:err});
+           return res.json({flg:1,msg:'删除成功！'});
         });
      }
 
