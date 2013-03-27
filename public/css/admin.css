@@ -36,3 +36,15 @@
 .notice-date{
   width: 68px;
 }
+/*状态*/
+.status{
+  background-color: #d7d7d7;
+  margin: 0 0 0 5px !important;
+  padding: 0 5px;
+  border-left: 1px solid #c8c8c8;
+  color: #888;
+}
+.status-over{
+  background-color:#dce7bf;
+  color:#bdb76a;
+}

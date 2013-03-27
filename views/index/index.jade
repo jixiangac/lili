@@ -32,6 +32,8 @@ block content
               button.btn(type='submit') 登入
         p 还没注册?  <a href="/reg">点我注册</a>
   else
-    p 哈哈
+    .container
+      if !!result.notice
+      .grey-tips 公告：#{result.notice}
 
 

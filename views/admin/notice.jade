@@ -2,25 +2,41 @@ extends layout/layout
 block content
   //内容区
   .main
-    form
+    form.ajax-form(action="/admin/notice",method="post")
       .grey-box
         .grey-box-hd
           a 发布时间:
-          input#date.notice-date(type="text",value="#{nowDate}")
-          select
-            option 00
-          select
-            option 00
-          select
-            option AM
-            option PM
-          a.fl-r 状态： 未发布
+          input#date.notice-date(type="text",name="date",value="#{nowDate}",readonly)
+          select(name="h")
+            -for(var i = 0;i < 12;i++)
+              - var h = i.toString().replace(/^(\d)$/,'0$1');
+              option(value=i)=h
+          select(name="m")
+            -for(var i = 0;i < 60;i++)
+              - var m = i.toString().replace(/^(\d)$/,'0$1')
+              option(value=i)=m
+          select(name="time")
+            -var time = ['上午','下午']
+            each item,i in time
+              option(value=i)= item
+          a 持续时间：
+          input(value="0",type="text",name="lasttime",style="width:20px;text-align:center;") 
+          |  天（0表示不定时间）
+          a.fl-r.status 未发布
           a.fl-r 发布人：#{user.username}
         .grey-box-bd
           .form-item
-            textarea.bootstrap(style="width:700px;height:100px;")
+            textarea.bootstrap(name="content",style="width:700px;height:100px;")
           .form-item
             button.btn(type="submit") 发布
+    if doc
+      h2.hbt 发布中的公告
+      .grey-tips.clearfix
+         p= doc.content
+         p
+          a.fl-r 发布人：#{doc.author}
+          a.fl-r 发布日期： #{doc.release_time}
+
 
             
     

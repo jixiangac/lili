@@ -8,11 +8,22 @@ var crypto = require('crypto')
 
 var index = function(req,res){
   if(req.method == 'GET'){
-    res.render('./index/index',
-      {
-         title: config.name
-        ,user : req.session.user
-      });
+    var n = 1;
+    var result = {};
+    //公告
+    jixiang.get({sort:{release_time:-1},query:{last_time:{'$gte':new Date()*1}}},'notice',function(err,doc){
+      if(err)console.log(err);
+      if(doc.length)result.notice = doc[0].content;
+      --n || render();
+    });
+    function render(){
+      res.render('./index/index',
+        {
+           title: config.name
+          ,user : req.session.user
+          ,result : result
+        });      
+    }
   }else if(req.method == 'POST'){
     //生成口令散列
     var md5 = crypto.createHash('md5');

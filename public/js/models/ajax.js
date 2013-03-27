@@ -22,13 +22,16 @@ define(function(require,exports,module){
        ,data : data
        ,dataType : 'json'
        ,beforsend: function(){
-         var tips = new popbox.tinyTips();
+         // var tips = new popbox.tinyTips();
        }
        ,success : function(res){
          if(res.flg === 1){
            $('.tiny-tips').html('<span class="tiny-right"></span>'+res.msg+'<span class="tiny-end"></span>');
            setTimeout(function(){
-             window.location.href = res.redirect;
+             if(res.redirect)
+               window.location.href = res.redirect;
+             else
+               window.location.reload();
            },2000);
          }else{
            tips.close();
