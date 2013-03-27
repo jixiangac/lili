@@ -31,6 +31,18 @@ define(function(require,exports,module){
      ,tips : '请重复输入密码'
      ,error : '请输入6位以上的密码！'
    }
+   ,'website' : {
+     name : '网站名称'
+    ,rex : '^[\u4e00-\u9fa5]{2,}$'
+    ,tips : '请输入网站名称'
+    ,error : '网站名称至少两个字！'
+   }
+   ,'url' : {
+     name : '网站地址'
+    ,rex : '^[a-zA-z]+:\/\/[^\\s]*$'
+    ,tips : '请输入网站地址'
+    ,error : '网站地址出错！'
+   }
   }
   function getLen(s){
     var l = 0;  

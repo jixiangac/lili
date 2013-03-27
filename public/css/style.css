@@ -23,3 +23,13 @@
 #reg-box{
   margin-top:80px;
 }
+.link ul li{
+  margin: 5px;
+  float: left;
+}
+.link ul li a{
+  color: #7E8282;
+}
+.link ul li a:hover{
+  text-decoration: underline;
+}

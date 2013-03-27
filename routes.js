@@ -51,7 +51,11 @@ module.exports = function(app){
   //------------------
   app.get('/admin/notice',adminNotice.index);
   app.post('/admin/notice',adminNotice.index);
-
+  //------------------
+  //    友情链接
+  //------------------
+  app.get('/admin/link',adminNotice.link);
+  app.post('/admin/link',adminNotice.link);
 
 
 

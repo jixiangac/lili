@@ -1,0 +1,84 @@
+extends layout/layout
+block content
+  //内容区
+  .main
+    if cat == 1
+      table.table.order-table
+        caption 友情链接列表
+          a.fl-r.btn-reply(href="/admin/link?add=1") 添加友情链接
+        thead.tab-title
+          tr.separate
+            th(colspan="5")
+          tr
+            th 网站名称
+            th 网站地址
+            th 描述
+            th 操作
+        tbody
+          if result.link && result.link.length
+            each item in result.link
+              tr
+                td= item.name
+                td
+                  a(href="#{item.url}")=item.url
+                td
+                  -var _d = item.description || '这家伙很懒，什么都没描述！'
+                  a(title="#{_d}")=_d
+                td
+                  a.btn-reply(href="/admin/link?modify=1&id=#{item._id}") 修改
+                  a.btn-reply.btn-del(href="/admin/link?del=1&id=#{item._id}") 删除
+    if cat == 2
+      form.form-inline.ajax-form(action="/admin/link?add=1",method="post")
+        table.table.order-table
+          caption.bread
+            a.parent(href="/admin/link") 友情链接列表
+            a &nbsp;»&nbsp;增加友情链接
+          thead.tab-title
+            tr.separate
+              th(colspan="2")
+          tbody
+            tr
+              td 网站名称
+              td.aleft
+                input#website(type="text",name="website",class="require")
+            tr
+              td 网站地址
+              td.aleft
+                input#url(type="text",name="url",class="require")
+            tr
+              td 描述
+              td.aleft
+                textarea(style="width:270px;height:100px;",name="description")
+            tr
+              td
+              td.aleft
+                button.btn(type="submit") 增加
+    if cat == 3
+      form.form-inline.ajax-form(action="/admin/link?modify=1&id=#{result.linkdetail._id}",method="post")
+        table.table.order-table
+          caption.bread
+            a.parent(href="/admin/link") 友情链接列表
+            a &nbsp;»&nbsp;修改友情链接
+          thead.tab-title
+            tr.separate
+              th(colspan="2")
+          tbody
+            tr
+              td 网站名称
+              td.aleft
+                input#username(type="text",name="website",class="require",value="#{result.linkdetail.name}")
+            tr
+              td 网站地址
+              td.aleft
+                input#email(type="text",name="url",class="require",value="#{result.linkdetail.url}")
+            tr
+              td 描述
+              td.aleft
+                textarea(style="width:270px;height:100px;",name="description")=result.linkdetail.description
+            tr
+              td
+              td.aleft
+                button.btn(type="submit") 修改
+
+            
+    

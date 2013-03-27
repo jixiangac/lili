@@ -12,4 +12,16 @@ define(function(require){
      ,direction:'future'
      ,format : 'YYYY-MM-DD'
     });
+  //删除
+  $('.btn-del').on('click',function(){
+    var url = $(this).attr('href');
+    $.get(url,function(res){
+      if(res.flg ===1){
+        window.location.reload();
+      }else{
+
+      }
+    });
+    return false;
+  });
 })
