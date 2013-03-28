@@ -17,6 +17,7 @@
 #main{
   border: 1px solid #d7d7d7;
   border-radius: 3px;
+  background: #fff;
 }
 .content{
   width: 100%;
@@ -24,13 +25,13 @@
 }
 .main{
   margin-left: 200px;
-  height: 500px;
   background:#fff;
   padding: 20px;
 }
 .sideleft{
   float: left;
   margin-left: -100%;
+  background:#f7f7f7;
 }
 /*日期*/
 .notice-date{
@@ -47,4 +48,8 @@
 .status-over{
   background-color:#dce7bf;
   color:#bdb76a;
+}
+/*问题区域*/
+.q{
+  width: 380px;
 }

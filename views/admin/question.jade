@@ -2,6 +2,7 @@ extends layout/layout
 block content
   //内容区
   .main
+    //问题列表
     if template === 1
       table.table.order-table
         caption 问题列表
@@ -10,25 +11,34 @@ block content
           tr.separate
             th(colspan="5")
           tr
-            th 分类
             th 问题
+            th 分类
             th 章节
             th 专题
             th 操作
         tbody
+          if !!result.qa && result.qa.length
+            each item in result.qa
+              -var catCat = item.catCat || '无',catChapter = item.catChapter || '无',catTopic = item.catTopic || '无';
+              tr
+                td.q= item.q
+                td= catCat
+                td= catChapter
+                td= catTopic
+                td
+                  a.btn-reply(href="/admin/question?info=1&id=#{item._id}") 查看
+                  a.btn-reply.btn-del(href="/admin/question?del=1&id=#{item._id}") 删除
+          else
             tr
-              td JavaScript
-              td JS就是Java吗？
-              td 第六章
-              td 大话javascript
-              td
-                a.btn-reply(href="#") 查看
-                a.btn-reply.btn-del(href="#") 删除
+              td(colspan='5') 还没有问题，
+               a(href="/admin/question?add=1") 点击这里添加问题
+      include ../layout/pagenav
+    //添加新问题
     if template === 2
       form.form-inline.ajax-form(action="/admin/question?add=1",method="post")
         table.table.order-table
           caption.bread
-            a.parent(href="/admin/link") 问题列表
+            a.parent(href="/admin/question") 问题列表
             a &nbsp;»&nbsp;增加新问题
           thead.tab-title
             tr.separate
@@ -37,30 +47,80 @@ block content
             tr
               td 问题
               td.aleft
-                input#website(type="text",name="website")
-            tr
-              td 分类
-              td.aleft
-                select
-                  option xx
-            tr
-              td 章节
-              td.aleft
-                select
-                  option xx
-            tr
-              td 专题
-              td.aleft
-                select
-                  option xx
+                input#question(type="text",name="question")
+            -var catArray = {catCat:{name:'分类',is:1,cat:1},catChapter:{name:'章节',is:1,cat:2},catTopic:{name:'专题',is:1,cat:3} };
+            -for(key in catArray)
+              tr
+                td=catArray[key].name
+                td.aleft
+                  if !!result.cat && result.cat.length
+                    -var list='';
+                    each item in result.cat
+                      if item.cat === catArray[key].cat
+                        -list += '<option value="'+item.name+'">'+item.name+'</option>';
+                    if !!list
+                      select(name=key)
+                        !{list}
+                    else
+                      | 还没有#{catArray[key].name}，
+                      a(href="/admin/question/cat?cat=#{catArray[key].cat}&add=") 点击这里添加#{catArray[key].name}
+                  else
+                    | 还没有#{catArray[key].name}，
+                    a(href="/admin/question/cat?cat=#{catArray[key].cat}&add=") 点击这里添加#{catArray[key].name}
             tr
               td 解答
               td.aleft
-                textarea(style="width:270px;height:100px;",name="description")
+                textarea(style="width:270px;height:100px;",name="answer")
             tr
               td
               td.aleft
                 button.btn(type="submit") 增加
+    //查看&&修改问题
+    if template === 3
+      form.form-inline.ajax-form(action="/admin/question?info=1&id=#{result.qa._id}",method="post")
+        table.table.order-table
+          caption.bread
+            a.parent(href="/admin/question") 问题列表
+            a &nbsp;»&nbsp;修改新问题
+          thead.tab-title
+            tr.separate
+              th(colspan="2")
+          tbody
+            tr
+              td 问题
+              td.aleft
+                input#question(type="text",name="question",value="#{result.qa.q}")
+            -var catArray = {catCat:{name:'分类',is:1,cat:1},catChapter:{name:'章节',is:1,cat:2},catTopic:{name:'专题',is:1,cat:3} };
+            -for(key in catArray)
+              tr
+                td=catArray[key].name
+                td.aleft
+                  if !!result.cat && result.cat.length
+                    -var list='';
+                    each item in result.cat
+                      if item.cat === catArray[key].cat
+                        if item.name === result.qa[key]
+                          -list +='<option selected'
+                        else
+                          -list +='<option'
+                        -list += ' value="'+item.name+'">'+item.name+'</option>';
+                    if !!list
+                      select(name=key)
+                        !{list}
+                    else
+                      | 还没有#{catArray[key].name}，
+                      a(href="/admin/question/cat?cat=#{catArray[key].cat}&add=") 点击这里添加#{catArray[key].name}
+                  else
+                    | 还没有#{catArray[key].name}，
+                    a(href="/admin/question/cat?cat=#{catArray[key].cat}&add=") 点击这里添加#{catArray[key].name}
+            tr
+              td 解答
+              td.aleft
+                textarea(style="width:270px;height:100px;",name="answer")=result.qa.a
+            tr
+              td
+              td.aleft
+                button.btn(type="submit") 修改    
 
 
             

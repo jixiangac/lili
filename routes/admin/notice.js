@@ -111,6 +111,13 @@ exports.index = function(req,res){
        res.render('./admin/link',renderData);      
      }
    }else if(req.method == 'POST'){
+     if(!!req.query.del){//删除
+        jixiang.delById(id,'links',function(err){
+           if(err)return res.json({flg:0,msg:err});
+           return res.json({flg:1,msg:'删除成功！'});
+        }); 
+        return;     
+     }
      var website = {
         name : req.body.website
        ,url : req.body.url
@@ -133,13 +140,6 @@ exports.index = function(req,res){
          if(err)return res.json({flg:0,msg:err});
          return res.json({flg:1,msg:'修改成功'});
        });
-     }else{//删除
-        var del = parseInt(req.query.del,10) || 0;
-        if(del===0)return;
-        jixiang.delById(id,'links',function(err){
-           if(err)return res.json({flg:0,msg:err});
-           return res.json({flg:1,msg:'删除成功！'});
-        });
      }
 
    }
