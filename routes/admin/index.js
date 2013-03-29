@@ -6,6 +6,9 @@ var config = require('../../config')
 
 var index = function(req,res){
    if(req.method == 'GET'){
+     // if(req.session.user.cat !==3){
+     //   return res.redirect('/'); 
+     // }
      res.render('./admin/index',
       {
         title : config.name+'管理后台'

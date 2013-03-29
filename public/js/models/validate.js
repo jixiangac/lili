@@ -7,7 +7,13 @@
 define(function(require,exports,module){
   //验证规则
   var pattern = {
-    'username':{
+    'realname' :{
+       name : '真实姓名'
+      ,rex : '^[\u4e00-\u9fa5]{2,}$'
+      ,tips : '请输入真实姓名！'
+      ,error : '真实姓名由中文组成！'
+    }
+   ,'username':{
        name :　'用户名'
       ,rex : '^[\\w]{3,10}'
       ,tips : '请输入用户名！'
@@ -33,7 +39,7 @@ define(function(require,exports,module){
    }
    ,'website' : {
      name : '网站名称'
-    ,rex : '^[\u4e00-\u9fa5]{2,}$'
+    ,rex : '^[^\\s]+$'
     ,tips : '请输入网站名称'
     ,error : '网站名称至少两个字！'
    }

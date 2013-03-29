@@ -38,6 +38,7 @@ var index = function(req,res){
       userdata.sex = req.body.sex;
     }
     if(cat === 2){
+      userdata.realname = req.body.realname;
       userdata.school = req.body.school;
     }
     jixiang.getOne({

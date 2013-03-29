@@ -3,6 +3,7 @@
  */
 var login = require('./routes/login')
    ,register = require('./routes/register')
+   ,student = require('./routes/student')
 
 
 var admin = require('./routes/admin/index')
@@ -24,8 +25,10 @@ module.exports = function(app){
   //-------------------
   app.get('/reg',register.index);
   app.post('/reg',register.index);
-
-
+  //--------------------
+  //    学生个人中心
+  //--------------------
+  app.get('/:username',student.index);
 
 
 
@@ -41,6 +44,7 @@ module.exports = function(app){
   //      用户
   //-------------------
   app.get('/admin/user',adminUser.index);
+  app.post('/admin/user',adminUser.index);
   // 增加用户
   app.get('/admin/user/add',adminUser.adduser);
   app.post('/admin/user/add',adminUser.adduser);

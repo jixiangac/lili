@@ -119,6 +119,9 @@ p{
 .hide{
   display: none;
 }
+.red{
+  color: #f75b5e;
+}
 /*H*/
 .hbt{
   margin-top: 20px;

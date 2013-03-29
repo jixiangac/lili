@@ -10,6 +10,10 @@ var index = function(req,res){
   if(req.method == 'GET'){
     var n = 2;
     var result = {};
+    if(!req.session.user){//没登入跳入登入页面
+       render();
+       return;
+    }
     //公告
     jixiang.get({
       sort:{release_time:-1}
@@ -28,6 +32,7 @@ var index = function(req,res){
     });
     //友情链接
     jixiang.get({},'links',function(err,doc){
+      console.log(doc)
       if(err)doc=[];
       result.links = doc;
       --n || render();
@@ -45,7 +50,8 @@ var index = function(req,res){
     //生成口令散列
     var md5 = crypto.createHash('md5');
     var password = md5.update(req.body.password).digest('base64');
-    jixiang.getOne({username:req.body.username},'users',function(err,user){
+    var cat = parseInt(req.body.cat,10) || 1;
+    jixiang.getOne({username:req.body.username,cat : cat},'users',function(err,user){
       if(!user){
         return res.json({flg:0,msg:'用户名或者密码错误！'});
       }
@@ -65,7 +71,13 @@ var index = function(req,res){
         console.log("had logined!");
       });
       req.session.user = user;
-      res.json({flg:1,msg:'登入成功!',redirect:'/'});
+      var redirect = '/';
+      if(cat === 2){
+         redirect = '/teacher'; 
+      }else if(cat === 3){
+         redirect = '/admin'
+      }
+      res.json({flg:1,msg:'登入成功!',redirect:redirect});
     });
   }
 }

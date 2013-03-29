@@ -43,7 +43,7 @@ exports.index = function(req,res){
           }
           item.regdate = Utils.format_date(new Date(item.regdate),true);
           item.logindate = Utils.format_date(new Date(item.logindate),true);         
-        })
+        });
       }
        res.render('./admin/user',
         {
@@ -58,6 +58,14 @@ exports.index = function(req,res){
     });
 
    }else if(req.method == 'POST'){
+      if(!!req.query.del){
+        var uid = parseInt(req.query.uid,10) || 0;
+        if(!uid)return;        
+        jixiang.delById(uid,'users',function(err){
+           if(err)return res.json({flg:0,msg:err});
+           return res.json({flg:1,msg:'删除成功！'});
+        });        
+      }
 
    }
 }

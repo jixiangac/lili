@@ -28,6 +28,7 @@ block content
                 td=item.logindate
                 td
                   a.btn-reply(href="/admin/user/info?cat=1&uid="+item._id) 查看
+                  a.btn-reply.btn-del(href="/admin/user?del=1&uid="+item._id) 删除
     if cat == 2
       table.table.order-table
         caption 老师列表
@@ -55,6 +56,7 @@ block content
                 td=item.logindate
                 td
                   a.btn-reply(href="/admin/user/info?cat=2&uid="+item._id) 查看
+                  a.btn-reply.btn-del(href="/admin/user?del=1&uid="+item._id) 删除
           else
             tr
               td(colspan="8") 暂无老师，点击右上角添加老师
@@ -83,6 +85,7 @@ block content
                 td=item.logindate
                 td
                   a.btn-reply(href="/admin/user/info?cat=3&uid="+item._id) 查看
+                  a.btn-reply.btn-del(href="/admin/user?del=1&uid="+item._id) 删除
           else
             tr
               td(colspan="6") 暂无管理员，点击右上角添加管理员

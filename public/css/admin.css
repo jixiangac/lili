@@ -7,32 +7,7 @@
 @import "sidebar.css";
 @import "table.css";
 @import "kalendae.css";
-/*头部*/
-#header h1{
-  text-align: center;
-  font-size: 40px;
-  color: #666;
-}
-/*Conent*/
-#main{
-  border: 1px solid #d7d7d7;
-  border-radius: 3px;
-  background: #fff;
-}
-.content{
-  width: 100%;
-  float: left;
-}
-.main{
-  margin-left: 200px;
-  background:#fff;
-  padding: 20px;
-}
-.sideleft{
-  float: left;
-  margin-left: -100%;
-  background:#f7f7f7;
-}
+
 /*日期*/
 .notice-date{
   width: 68px;
