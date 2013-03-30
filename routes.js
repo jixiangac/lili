@@ -4,6 +4,7 @@
 var login = require('./routes/login')
    ,register = require('./routes/register')
    ,student = require('./routes/student')
+   ,question = require('./routes/question')
 
 
 var admin = require('./routes/admin/index')
@@ -23,18 +24,26 @@ module.exports = function(app){
   //-------------------
   //      注册
   //-------------------
+  app.get('/reg',checkNotLogin);
   app.get('/reg',register.index);
   app.post('/reg',register.index);
   //--------------------
-  //    学生个人中心
+  //    个人资料
   //--------------------
-  app.get('/:username',student.index);
-
+  app.all('/stu/*',checkLogin);
+  app.get('/stu/:username',student.index);
+  app.post('/stu/:username',student.index);
+  //-------------------
+  //   机器人问答
+  //-------------------
+  app.get('/q/robot',question.index);
+  app.post('/q/robot',question.index);
 
 
   /*===================
           后台路由
     ===================*/
+  app.all(/\/admin\/?\w*/,checkLogin);
   //-------------------
   //       首页
   //-------------------
@@ -76,4 +85,17 @@ module.exports = function(app){
     req.session.user = null;
     return res.redirect('/');
   })
-} 
+}
+
+function checkLogin(req,res,next){
+  if(!req.session.user){
+     return res.redirect('/');
+  }
+  next();
+}
+function checkNotLogin(req,res,next){
+  if(req.session.user){
+    return res.redirect('/');
+  }
+  next();
+}

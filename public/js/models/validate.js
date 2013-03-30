@@ -49,6 +49,12 @@ define(function(require,exports,module){
     ,tips : '请输入网站地址'
     ,error : '网站地址出错！'
    }
+   ,'q' : {
+     name : '问题'
+    ,rex : '^[^\\s]+$'
+    ,tips : '请输入问题！'
+    ,error :'问题不能为空哦！'
+   }
   }
   function getLen(s){
     var l = 0;  

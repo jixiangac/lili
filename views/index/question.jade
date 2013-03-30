@@ -1,0 +1,9 @@
+extends ../layout/layout
+block content
+  .main
+    .grey-tips 我是一个机器人，有什么问题，就问我吧～
+      form#q.form-inline.ajax-form(action="/q/robot",method="post")
+        input#q(type="text",name="q",class="require")
+        button.btn 提交
+    #answers
+          

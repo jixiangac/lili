@@ -1,0 +1,48 @@
+extends ../layout/layout
+block content
+  .main
+    form.form-inline.ajax-form(action="/admin/user/info?front=1&cat=1&uid="+people._id,method="post")
+      table.table.order-table
+        caption.bread
+          a.parent 个人资料
+        thead.tab-title
+          tr.separate
+            th(colspan="2")
+        tbody
+          tr
+            td 用户名
+            td.aleft=people.username
+          tr
+            td 邮箱
+            td.aleft=people.email
+          tr
+            td 性别
+            td.aleft
+              -var select= {'1':false,'2':false,'3':false};
+              each item,key in select
+                if people.sex == key
+                  -select[key]=true;
+                  -break;
+              select#sex(name="sex")
+                option(value="1",selected=select["1"]) 男
+                option(value="2",selected=select["2"]) 女
+                option(value="3",selected=select["3"]) 其他
+          tr
+            td 注册时间
+            td.aleft=people.regdate
+          tr
+            td 最后登入时间
+            td.aleft=people.logindate
+          tr
+            td 原密码
+            td.aleft
+              input#oldpassword(type="password",name="oldpassword")
+              |  不修改密码请留空
+          tr
+            td 新密码
+            td.aleft
+              input#password(type="password",name="password")
+          tr
+            td
+            td.aleft
+              button.btn(type="submit") 修改

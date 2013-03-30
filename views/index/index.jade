@@ -32,16 +32,17 @@ block content
               button.btn(type='submit') 登入
         p 还没注册?  <a href="/reg">点我注册</a>
   else
-    .container
+    .main
       //公告处
       if !!result.notice
         .grey-tips.red 公告：#{result.notice}
-      if result.links && result.links.length
-        .container.link
-          h2.hbt 友情链接
-          ul.clearfix
-            each item in result.links
-              li
-                a(href=item.url,target="_blank",title=item.description)=item.name
+block link
+  if result.links && result.links.length
+    .container.link
+      h2.hbt 友情链接
+      ul.clearfix
+        each item in result.links
+          li
+            a(href=item.url,target="_blank",title=item.description)=item.name
 
 

@@ -1,14 +1,28 @@
 .sidebar.sideleft
   div.category-item
-    .name 
-      a(href="/admin/notice") 个人资料
+    .category.clearfix
+      .name 
+        a(href="/") 首页
   div.category-item
     .category.clearfix
       .name 
-       a(href="/admin/user") 我提问的
+        a(href="/stu/#{user.username}/ask") 我要提问
       .plus
     ul
       li
-        a.item(href="/admin/user?cat=1") 已解决
+        a.item(href="/q/robot") 问机器人
       li
-        a.item(href="/admin/user?cat=2") 未解决
+        a.item(href="/q/teacher") 提问老师
+  div.category-item
+    .category.clearfix
+      .name 
+       a(href="/stu/#{user.username}/question") 我提问的
+      .plus
+    ul
+      li
+        a.item(href="/stu/#{user.username}/question?cat=1") 已解决
+      li
+        a.item(href="/stu/#{user.username}/question?cat=2") 未解决
+  div.category-item
+    .name 
+      a(href="/stu/#{user.username}") 个人资料

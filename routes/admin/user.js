@@ -103,37 +103,60 @@ exports.infouser = function(req,res){
       });
    });
   }else if(req.method =='POST'){
-    var condition ={};
-    if(cat == 3){
-      condition.modify = {
-        '$set' : {
-          rank : req.body.rank
-        }
-      }
+    if(parseInt(req.query.front,10) && (req.body.oldpassword || req.body.password)){
+      if(/^[\w]{6,12}$/.test(req.body.oldpassword) && /^[\w]{6,12}$/.test(req.body.password)){
+        return res.json({flg:0,msg:'密码必须要6位以上'});
+      } 
+      jixiang.getOne({_id:uid},'users',function(err,doc){
+         if(err)return res.json({flg:0,msg:err});
+         var md5 = crypto.createHash('md5');
+         var oldpassword = md5.update(req.body.oldpassword).digest('base64');
+         if(doc.password !== oldpassword)
+           return res.json({flg:0,msg:'原密码不正确！'});
+         setInfo();
+      })
     }else{
-      condition.modify = {
-        '$set' : {
-          sex : req.body.sex
+      setInfo();
+    }
+    function setInfo(){
+      var condition ={};
+      if(cat == 3){
+        condition.modify = {
+          '$set' : {
+            rank : req.body.rank
+          }
+        }
+      }else{
+        condition.modify = {
+          '$set' : {
+            sex : req.body.sex
+          }
         }
       }
-    }
-    if(cat == 2){
-      condition.modify['$set'].school = req.body.school;
-    }
-    if(req.body.password){
-      //生成口令散列
-      var md5 = crypto.createHash('md5');
-      var password = md5.update(req.body.password).digest('base64');
-      condition.modify['$set'].password = password;
-    }
-    condition.query = {
-     _id : uid
-    }
-    jixiang.update(condition,'users',function(err){
-      if(err){
-        return res.json({flg:0,msg:'修改失败！'});
+      if(cat == 2){
+        condition.modify['$set'].school = req.body.school;
       }
-      return res.json({flg:1,msg:'修改成功！',redirect:'/admin/user?cat='+cat});
-    });
+      if(req.body.password){
+        //生成口令散列
+        var md5 = crypto.createHash('md5');
+        var password = md5.update(req.body.password).digest('base64');
+        condition.modify['$set'].password = password;
+      }
+      condition.query = {
+       _id : uid
+      }
+      jixiang.update(condition,'users',function(err){
+        if(err){
+          return res.json({flg:0,msg:'修改失败！'});
+        }
+        var redirect = '/admin/user?cat='+cat;
+        if(parseInt(req.query.front,10)){
+           redirect = (parseInt(req.query.front,10)==1) ? '/stu/' : '/teach/';
+           redirect += req.session.user.username;
+        }
+        return res.json({flg:1,msg:'修改成功！',redirect:redirect});
+      }); 
+    }
+
   }
 }

@@ -5,5 +5,14 @@ html
     title #{title}
     link(rel="stylesheet",href="/css/style.css")
     body
-      block content
+      if user
+        .container.clearfix
+          include header
+          #main.clearfix
+            .content
+              block content
+            include sidebar
+          block link
+      else
+        block content
       include footer

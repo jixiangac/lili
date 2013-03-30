@@ -33,6 +33,9 @@ define(function(require,exports,module){
              else
                window.location.reload();
            },2000);
+         }else if(res.flg === 2){
+            tips.close();
+            $('#answers').html('<div class="grey-tips">'+res.answers.a+'</div>');
          }else{
            tips.close();
            new popbox.tinyTips('error',res.msg);
