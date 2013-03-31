@@ -28,7 +28,7 @@
   height: 15px;
   line-height: 15px;
 }
-table tr.separate th{
+table tr.separate th,table tr.separate td{
   border:0;
 }
 /*订单类表格*/
@@ -40,9 +40,12 @@ table tr.separate th{
 .order-table td,.order-table caption,thead.tab-title th{
   border: 1px solid #ddd;
 }
-thead.tab-title tr{
+.tab-title tr,.tab-head{
   height : 30px;
   line-height: 30px;
+}
+.tab-head td{
+  padding:0;
 }
 caption.bread{
   text-align: left;
@@ -51,7 +54,7 @@ caption.bread{
 caption a.parent{
   color: #52946F;
 }
-caption,thead.tab-title{
+caption,.tab-title,.tab-head{
   padding : 10px 0;
   /*border-bottom: 0;*/
   background:  #F6F6F6;
@@ -60,6 +63,12 @@ caption,thead.tab-title{
 }
 .order-table tbody tr:hover,.order-table tbody tr.cur{
   background:#EAF9E6;
+}
+.order-table tbody tr.separate:hover{
+  background: none;
+}
+.order-table tbody tr.tab-head:hover{
+  background:#F6F6F6;
 }
 .order-table .line{
   border-bottom: 1px solid #ddd;

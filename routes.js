@@ -34,16 +34,28 @@ module.exports = function(app){
   app.get('/stu/:username',student.index);
   app.post('/stu/:username',student.index);
   //-------------------
-  //   机器人问答
+  //   自动问答
   //-------------------
   app.get('/q/robot',question.index);
   app.post('/q/robot',question.index);
-
-
+  //------------------
+  //   给老师提问
+  //------------------
+  app.get('/q/teacher',question.ask);
+  app.post('/q/teacher',question.ask);
+  //------------------
+  //    我提问的
+  //------------------
+  app.get('/stu/:username/question',question.noslove);
   /*===================
           后台路由
     ===================*/
-  app.all(/\/admin\/?\w*/,checkLogin);
+  app.all(/\/admin\/?\w*/,function(req,res,next){
+    // if(!req.session.user || req.session.user.cat !==3){
+    //    return res.redirect('/');
+    // }
+    next();
+  });
   //-------------------
   //       首页
   //-------------------
@@ -59,7 +71,7 @@ module.exports = function(app){
   app.post('/admin/user/add',adminUser.adduser);
   // 查看&修改用户
   app.get('/admin/user/info',adminUser.infouser);
-  app.post('/admin/user/info',adminUser.infouser);
+  app.post('/user/info',adminUser.infouser);
   //------------------
   //     公告发布
   //------------------
@@ -69,7 +81,7 @@ module.exports = function(app){
   //     问题管理
   //------------------
   app.get('/admin/question',adminQuestion.index);
-  app.post('/admin/question',adminQuestion.index);
+  app.post('/question',adminQuestion.index);
   //分类&章节&专题
   app.get('/admin/question/cat',adminQuestion.cat);
   app.post('/admin/question/cat',adminQuestion.cat);

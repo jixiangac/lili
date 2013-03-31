@@ -1,7 +1,7 @@
 extends ../layout/layout
 block content
   .main
-    form.form-inline.ajax-form(action="/admin/user/info?front=1&cat=1&uid="+people._id,method="post")
+    form.form-inline.ajax-form(action="/user/info?front=1&cat=1&uid="+people._id,method="post")
       table.table.order-table
         caption.bread
           a.parent 个人资料

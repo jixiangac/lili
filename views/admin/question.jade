@@ -27,7 +27,7 @@ block content
                 td= catTopic
                 td
                   a.btn-reply(href="/admin/question?info=1&id=#{item._id}") 查看
-                  a.btn-reply.btn-del(href="/admin/question?del=1&id=#{item._id}") 删除
+                  a.btn-reply.btn-del(href="/question?del=1&id=#{item._id}") 删除
           else
             tr
               td(colspan='5') 还没有问题，
@@ -35,7 +35,7 @@ block content
       include ../layout/pagenav
     //添加新问题
     if template === 2
-      form.form-inline.ajax-form(action="/admin/question?add=1",method="post")
+      form.form-inline.ajax-form(action="/question?add=1",method="post")
         table.table.order-table
           caption.bread
             a.parent(href="/admin/question") 问题列表
@@ -77,7 +77,7 @@ block content
                 button.btn(type="submit") 增加
     //查看&&修改问题
     if template === 3
-      form.form-inline.ajax-form(action="/admin/question?info=1&id=#{result.qa._id}",method="post")
+      form.form-inline.ajax-form(action="/question?info=1&id=#{result.qa._id}",method="post")
         table.table.order-table
           caption.bread
             a.parent(href="/admin/question") 问题列表

@@ -42,3 +42,21 @@ exports.format = function(format){
         ("00"+ o[k]).substr((""+ o[k]).length));
   return format;
 }
+/**
+ * 分页
+ */
+exports.pagenav = function(page,count,limit){
+  var pages = parseInt(page,10) || 1;
+  var condition = {
+     skip : (pages-1)*limit
+    ,limit : limit
+  }
+  var pageNum = {
+     max : Math.ceil(count/7) ? Math.ceil(count/7) : 1
+    ,cur : pages
+    ,next : pages+1
+    ,prev : pages-1
+  }
+  if(pageNum.cur > pageNum.max)return false;
+  return {pageNum:pageNum,condition:condition};
+}

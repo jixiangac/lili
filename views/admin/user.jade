@@ -38,6 +38,7 @@ block content
             th(colspan="5")
           tr
             th UID
+            th 真实姓名
             th 用户名
             th 邮箱
             th 性别
@@ -49,6 +50,7 @@ block content
             each item in people
               tr
                 td=item._id
+                td=item.realname
                 td=item.username
                 td=item.email
                 td=item.sex

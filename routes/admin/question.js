@@ -51,7 +51,7 @@ exports.index = function(req,res){
       }
       if(pageNum.cur > pageNum.max)return;
 
-      jixiang.get({},'qa',function(err,doc){
+      jixiang.get(condition,'qa',function(err,doc){
         if(err)doc=[];
         result.qa = doc;
         render(pageNum);
@@ -81,15 +81,27 @@ exports.index = function(req,res){
     }
     var qdata = {
       q : req.body.question.trim()
-     ,a : req.body.answer.trim()
      ,catCat : req.body.catCat || ''
      ,catChapter : req.body.catChapter || ''
      ,catTopic : req.body.catTopic || ''
     }
+    var msg = '增加成功！',redirect = '/admin/question';
+    if(req.body.answer){
+      qdata.a = req.body.answer.trim();
+      qdata.isAnswer = true;
+    }else{
+      qdata.isAnswer = false;
+    }
     if(add !==0){ //增加问题
+      if(req.body.toteacher){
+        qdata.toteacher = req.body.toteacher;
+        qdata.askuser = req.session.user._id;
+        msg = '问题提交成功，请耐心等待老师回复！';
+        redirect = '/q/teacher';
+      }
       jixiang.save(qdata,'qa',function(err,doc){
         if(err)return res.json({flg:0,msg:err});
-        return res.json({flg:1,msg:'增加成功！',redirect:'/admin/question'});
+        return res.json({flg:1,msg:msg,redirect:redirect});
       });
     }else if(info !==0){
       if(!id)return;

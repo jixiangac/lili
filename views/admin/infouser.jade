@@ -3,7 +3,7 @@ block content
   //内容区
   .main
     if cat == 1
-      form.form-inline.ajax-form(action="/admin/user/info?cat=1&uid="+people._id,method="post")
+      form.form-inline.ajax-form(action="/user/info?cat=1&uid="+people._id,method="post")
         table.table.order-table
           caption.bread
             a.parent(href="/admin/user?cat=1") 学生列表
@@ -45,7 +45,7 @@ block content
               td.aleft
                 button.btn(type="submit") 修改  
     if cat == 2
-      form.form-inline.ajax-form(action="/admin/user/info?cat=2&uid="+people._id,method="post")
+      form.form-inline.ajax-form(action="/user/info?cat=2&uid="+people._id,method="post")
         table.table.order-table
           caption.bread
             a.parent(href="/admin/user?cat=2") 老师列表
@@ -91,7 +91,7 @@ block content
               td.aleft
                 button.btn(type="submit") 修改  
     if cat == 3
-      form.form-inline.ajax-form(action="/admin/user/info?cat=3&uid="+people._id,method="post")
+      form.form-inline.ajax-form(action="/user/info?cat=3&uid="+people._id,method="post")
         table.table.order-table
           caption.bread
             a.parent(href="/admin/user?cat=3") 管理员列表

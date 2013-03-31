@@ -1,9 +1,78 @@
 extends ../layout/layout
 block content
   .main
-    .grey-tips 我是一个机器人，有什么问题，就问我吧～
-      form#q.form-inline.ajax-form(action="/q/robot",method="post")
-        input#q(type="text",name="q",class="require")
-        button.btn 提交
-    #answers
+    if template == 1
+      .grey-tips 我是一个机器人，有什么问题，就问我吧～
+        form#q.form-inline.ajax-form(action="/q/robot",method="post")
+          input#q(type="text",name="q",class="require")
+          button.btn 提交
+      #answers
+    if template == 2
+        form.form-inline.ajax-form(action="/question?add=1",method="post")
+          table.table.order-table
+            caption.bread
+              a.parent 提问老师
+            thead.tab-title
+              tr.separate
+                th(colspan="2")
+            tbody
+              tr
+                td.q 问题
+                td.aleft
+                  textarea(style="width:270px;height:100px;",name="question")
+                tr
+                  td 提问给
+                  td.aleft
+                    if result.teacher && result.teacher.length
+                        each item in result.teacher
+                          label(for="#{item._id}") 
+                            input(type="checkbox",id=item._id,value="#{item._id}",name="toteacher")
+                            |#{item.realname}
+
+                    else
+                      |暂无老师
+              tr
+                td
+                td.aleft
+                  button.btn(type="submit") 提问
+    if template == 3
+      if cat === 1
+        //已解决的问题
+        table.table.order-table
+          if result.q && result.q.length
+            caption 你有#{result.q.length}条问题被解决了
+            each item in result.q      
+              tbody
+                tr.separate
+                tr.tab-head
+                  td(colspan="2")
+                    a 该问题被XX做了回复
+                tr
+                  td.q 问题：
+                  td.aleft= item.q
+                tr
+                  td.q 回答：
+                  td.aleft= item.a
+          else
+            caption 你太懒了吧，还从没提问过问题啊！
+        include ../layout/pagenav        
+      if cat === 2
+        //未解决的问题
+        table.table.order-table
+          if result.q && result.q.length
+            caption 你还有#{result.q.length}条未解决的问题
+            each item in result.q      
+              tbody
+                tr.separate
+                tr.tab-head
+                  td(colspan="2")
+                    a 该问题提交给了[#{item.toteacher}]，正在等待回复
+                tr
+                  td.q 问题：
+                  td.aleft= item.q
+          else
+            caption 你没有未解决的问题，去提个问题吧～
+        include ../layout/pagenav
+
+
           
