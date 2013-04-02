@@ -88,3 +88,41 @@ exports.noslove = function(req,res){
 
   }
 }
+
+//老师回答问题
+exports.toslove = function(req,res){
+  var cat = parseInt(req.query.cat ,10) || 1
+     ,result = {};
+  if(req.method == 'GET'){
+    jixiang.count({toteacher:req.session.user._id.toString(),isAnswer:(cat===1)},'qa',function(err,count){
+      console.log(count)
+      var res = utils.pagenav(req.query.page,count,7);
+       if(!res)return res.redirect('404');
+       res.condition.query = {
+         isAnswer : cat ===1
+        ,toteacher : req.session.user._id.toString()
+       }
+       jixiang.get(res.condition,'qa',function(err,doc){
+         if(err)doc=[];
+         console.log(doc)
+         result.q = doc;
+         render(res.pageNum);
+       })
+    });
+    function render(){
+      var renderData = {
+        title : config.name
+       ,user : req.session.user
+       ,result : result 
+       ,cat : cat
+      }
+      if(arguments.length){
+       renderData.pages = arguments[0];
+       renderData.pagenav = '/teach/'+req.session.user.username+'/question?cat='+cat+'&';
+      }
+      res.render('./index/question_teach',renderData);
+    }
+  }if(req.method == 'POST'){
+
+  }
+}

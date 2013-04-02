@@ -104,7 +104,7 @@ exports.infouser = function(req,res){
    });
   }else if(req.method =='POST'){
     if(parseInt(req.query.front,10) && (req.body.oldpassword || req.body.password)){
-      if(/^[\w]{6,12}$/.test(req.body.oldpassword) && /^[\w]{6,12}$/.test(req.body.password)){
+      if(!/^[\w]{6,12}$/.test(req.body.oldpassword) || !/^[\w]{6,12}$/.test(req.body.password)){
         return res.json({flg:0,msg:'密码必须要6位以上'});
       } 
       jixiang.getOne({_id:uid},'users',function(err,doc){

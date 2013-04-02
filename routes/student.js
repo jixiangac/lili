@@ -14,11 +14,12 @@ var index = function(req,res){
       }
       doc.regdate = format.call(new Date(doc.regdate),'yyyy-MM-dd hh:mm:ss');
       doc.logindate = format.call(new Date(doc.logindate),'yyyy-MM-dd hh:mm:ss');
-      res.render('./index/student',
+      res.render('./index/user',
       {
         title : config.name+'个人中心'
        ,user :　req.session.user
-       ,people : doc    
+       ,people : doc
+       ,template : 1  
       });     
     });
 

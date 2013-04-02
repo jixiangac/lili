@@ -1,0 +1,18 @@
+.sidebar.sideleft
+  div.category-item
+    .category.clearfix
+      .name 
+        a(href="/teach") 首页
+  div.category-item
+    .category.clearfix
+      .name 
+       a 邀请我回答的
+      .plus
+    ul
+      li
+        a.item(href="/teach/#{user.username}/question?cat=1") 已解决
+      li
+        a.item(href="/teach/#{user.username}/question?cat=2") 未解决
+  div.category-item
+    .name 
+      a(href="/teach/#{user.username}") 个人资料

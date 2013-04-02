@@ -4,6 +4,7 @@
 var login = require('./routes/login')
    ,register = require('./routes/register')
    ,student = require('./routes/student')
+   ,teacher = require('./routes/teacher')
    ,question = require('./routes/question')
 
 
@@ -47,6 +48,22 @@ module.exports = function(app){
   //    我提问的
   //------------------
   app.get('/stu/:username/question',question.noslove);
+  /*----------------------
+          老师模块
+    ---------------------*/
+  //-------------------
+  //   老师首页
+  //-------------------
+  app.get('/teach',teacher.index);
+  //--------------------
+  //     个人资料-老师
+  //--------------------
+  app.get('/teach/:username',teacher.info);
+  //------------------
+  //    老师答疑问题
+  //-------------------
+  app.get('/teach/:username/question',question.toslove);
+  app.post('/teach/:username/question',question.toslove);
   /*===================
           后台路由
     ===================*/

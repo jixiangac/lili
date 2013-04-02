@@ -32,7 +32,6 @@ var index = function(req,res){
     });
     //友情链接
     jixiang.get({},'links',function(err,doc){
-      console.log(doc)
       if(err)doc=[];
       result.links = doc;
       --n || render();
@@ -73,7 +72,7 @@ var index = function(req,res){
       req.session.user = user;
       var redirect = '/';
       if(cat === 2){
-         redirect = '/teacher'; 
+         redirect = '/teach'; 
       }else if(cat === 3){
          redirect = '/admin'
       }
