@@ -56,15 +56,22 @@ exports.noslove = function(req,res){
   if(req.method == 'GET'){
     var result = {};
     var cat = parseInt(req.query.cat,10) || 1;
-    jixiang.count({askuser:req.session.user._id,isAnswer:(cat===1)},'qa',function(err,count){
+    var condition = {
+       askuser : req.session.user.username
+      ,isAnswer : (cat===1)
+    };
+    jixiang.count(condition,'qa',function(err,count){
+       result.count = count;
        var res = utils.pagenav(req.query.page,count,7);
        if(!res)return res.redirect('404');
-       res.condition.query = {
-         askuser : req.session.user._id
-        ,isAnswer : cat===1
-       }
+       res.condition.query = condition;
        jixiang.get(res.condition,'qa',function(err,doc){
-         if(err)console.log(err);
+         if(err)doc=[];
+         if(cat === 1 && doc.length){
+            doc.forEach(function(item,index){
+              item.replydate = utils.format.call(new Date(item.replydate),'yyyy-MM-dd hh:mm:ss');
+            });
+         }
          result.q = doc;
          render(res.pageNum);
        });
@@ -94,16 +101,25 @@ exports.toslove = function(req,res){
   var cat = parseInt(req.query.cat ,10) || 1
      ,result = {};
   if(req.method == 'GET'){
-    jixiang.count({toteacher:req.session.user._id.toString(),isAnswer:(cat===1)},'qa',function(err,count){
-      console.log(count)
+     var condition = {};
+    if(cat === 1){
+      condition.replyuser = req.session.user.realname;
+    }else{
+      condition.toteacher = req.session.user.realname;
+    }
+    condition.isAnswer = (cat === 1);
+    jixiang.count(condition,'qa',function(err,count){
+      result.count = count;
       var res = utils.pagenav(req.query.page,count,7);
        if(!res)return res.redirect('404');
-       res.condition.query = {
-         isAnswer : cat ===1
-        ,toteacher : req.session.user._id.toString()
-       }
+       res.condition.query = condition;
        jixiang.get(res.condition,'qa',function(err,doc){
          if(err)doc=[];
+         if(cat===1 && doc.length){
+            doc.forEach(function(item,index){
+              item.replydate = utils.format.call(new Date(item.replydate),'yyyy-MM-dd hh:mm:ss');
+            }); 
+         }
          console.log(doc)
          result.q = doc;
          render(res.pageNum);
@@ -123,6 +139,21 @@ exports.toslove = function(req,res){
       res.render('./index/question_teach',renderData);
     }
   }if(req.method == 'POST'){
-
+     var condition = {};
+     condition.query = {
+        _id : parseInt(req.body.id,10)
+     }
+     condition.modify = {
+        '$set' : {
+           a : req.body.answer
+          ,isAnswer : true
+          ,replyuser : req.session.user.realname
+          ,replydate : new Date()*1
+        }
+     }
+     jixiang.update(condition,'qa',function(err){
+       if(err)return res.json({flg: 0,msg: err});
+       return res.json({flg:1,msg:'回答成功！'})
+     });
   }
 }

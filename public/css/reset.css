@@ -130,7 +130,9 @@ p{
   padding-bottom: 4px;
   color: #888;
 }
-
+.pink{
+  color:#f3715c;
+}
 /*清除浮动*/
 .clearfix:before, .clearfix:after,.hd:before,.hd:after{ content:"."; display:block; height:0; visibility:hidden }
 .clearfix:after,.hd:after{ clear:both }

@@ -43,7 +43,7 @@ module.exports = function(app){
   //   给老师提问
   //------------------
   app.get('/q/teacher',question.ask);
-  app.post('/q/teacher',question.ask);
+  // app.post('/q/teacher',question.ask);
   //------------------
   //    我提问的
   //------------------
@@ -63,7 +63,7 @@ module.exports = function(app){
   //    老师答疑问题
   //-------------------
   app.get('/teach/:username/question',question.toslove);
-  app.post('/teach/:username/question',question.toslove);
+  app.post('/teach/question',question.toslove);
   /*===================
           后台路由
     ===================*/

@@ -26,7 +26,7 @@ block content
                     if result.teacher && result.teacher.length
                         each item in result.teacher
                           label(for="#{item._id}") 
-                            input(type="checkbox",id=item._id,value="#{item._id}",name="toteacher")
+                            input(type="checkbox",id=item._id,value="#{item.realname}",name="toteacher")
                             |#{item.realname}
 
                     else
@@ -40,13 +40,15 @@ block content
         //已解决的问题
         table.table.order-table
           if result.q && result.q.length
-            caption 你有#{result.q.length}条问题被解决了
+            caption 你有#{result.count}条问题被解决了
             each item in result.q      
               tbody
                 tr.separate
                 tr.tab-head
                   td(colspan="2")
-                    a 该问题被XX做了回复
+                    a 该问题由
+                     span.pink【#{item.replyuser}】
+                     | 回答于#{item.replydate}
                 tr
                   td.q 问题：
                   td.aleft= item.q
@@ -60,13 +62,15 @@ block content
         //未解决的问题
         table.table.order-table
           if result.q && result.q.length
-            caption 你还有#{result.q.length}条未解决的问题
+            caption 你还有#{result.count}条未解决的问题
             each item in result.q      
               tbody
                 tr.separate
                 tr.tab-head
                   td(colspan="2")
-                    a 该问题提交给了[#{item.toteacher}]，正在等待回复
+                    a 该问题提交给了
+                     span.pink【#{item.toteacher}】
+                     |，正在等待回复
                 tr
                   td.q 问题：
                   td.aleft= item.q

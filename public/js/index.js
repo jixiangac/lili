@@ -38,4 +38,52 @@ define(function(require){
     });
     return false;
   });
+  //加载回答框
+  $('.teach-reply .btn-reply').on('click',function(){
+     var tbody = $(this).parents('tbody'),r_box;
+     if(!tbody.find('.answer').length){
+      r_box = '<tr class="answer form-inline">'+
+                 '<td class="q">回答：</td>'+
+                 '<td class="aleft">'+
+                   '<textarea name="reply"></textarea>'+
+                   '<a class="btn-reply btn q-reply">提交回答</a>'+
+                   '<a class="btn-reply btn cancel">取消</a>'+
+                 '</td>'+
+              '</tr>';
+       $(r_box).appendTo(tbody);
+       tbody.find('.answer').hide().fadeIn('fast');
+     }else{
+       tbody.find('textarea').focus();
+     } 
+  });
+  validate = require('./models/validate');
+  //提交回答
+  $('tbody').delegate('.q-reply','click',function(){
+      var tbody = $(this).parents('tbody');
+      if(!tbody.find('textarea').val().length){
+         new popbox.tinyTips('error','内容总不能为空吧？');
+         return;
+      }
+      var data = {
+        id :tbody.attr('data-id')
+       ,answer : $.trim( tbody.find('textarea').val() )
+      }
+      $.post('/teach/question',data,function(res){
+          if(res.flg === 1){
+            new popbox.tinyTips('right',res.msg);
+            setTimeout(function(){
+              tbody.fadeOut();
+            },1500);
+            
+          }else{
+            new popbox.tinyTips('error',res.msg);
+          }
+      });
+      
+  })
+  //取消回答
+  $('tbody').delegate('.cancel','click',function(){
+     var tr = $(this).parents('tr');
+     tr.fadeOut('fast',function(){tr.remove();})
+  });
 })

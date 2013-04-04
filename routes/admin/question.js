@@ -95,7 +95,7 @@ exports.index = function(req,res){
     if(add !==0){ //增加问题
       if(req.body.toteacher){
         qdata.toteacher = req.body.toteacher;
-        qdata.askuser = req.session.user._id;
+        qdata.askuser = req.session.user.username;
         msg = '问题提交成功，请耐心等待老师回复！';
         redirect = '/q/teacher';
       }

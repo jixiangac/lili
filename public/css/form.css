@@ -216,6 +216,10 @@
   padding: 4px 6px;
   font-size:14px;
  }
+  .form-inline textarea{
+    width: 270px;
+    height: 100px;
+  }
   .form-inline input[type="text"],
  .form-inline input[type="password"]{
     width:270px;
