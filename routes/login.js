@@ -2,7 +2,7 @@
  * 登入Routes
  */
 var crypto = require('crypto')
-   ,Utils = require('../models/utils')
+   ,utils = require('../models/utils')
    ,config = require('../config')
    ,jixiang = require('../models/base');
 

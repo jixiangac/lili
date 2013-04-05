@@ -1,5 +1,5 @@
 {
-  "name": "application-name",
+  "name": "lili's ask",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -9,6 +9,7 @@
     "express": "3.0.3",
     "jade": "*",
     "connect-mongo":"0.2.0",
-    "mongodb":"1.0.2"
+    "mongodb":"1.0.2",
+    "nodemailer":"*"
   }
 }

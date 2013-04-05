@@ -151,6 +151,19 @@ exports.toslove = function(req,res){
           ,replydate : new Date()*1
         }
      }
+     jixiang.getOne({_id:condition.query._id},'qa',function(err,doc){
+      console.log(doc)
+       if(err)console.log(err);
+       jixiang.getOne({username:doc.askuser},'users',function(err,user){
+          if(err)console.log(err);
+          var html = '<p><b>你的问题是：'+doc.q+'</b></p>'+
+                     '<p><b>'+req.session.user.realname+'的回答是：</b>'+req.body.answer +'</p>'+
+                     '<p>'+
+                       '<a href="'+config.base+'stu/'+user.username+'/question?cat=1">点击这里查看</a>'+
+                     '</p>';
+          utils.email(user.email,req.session.user.realname+'回答了你的问题，快来看看吧！',req.body.answer,html);
+       })
+     });
      jixiang.update(condition,'qa',function(err){
        if(err)return res.json({flg: 0,msg: err});
        return res.json({flg:1,msg:'回答成功！'})

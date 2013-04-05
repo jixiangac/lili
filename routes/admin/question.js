@@ -2,7 +2,7 @@
  * 问题列表
  */
 var config = require('../../config')
-   ,Utils  = require('../../models/utils')
+   ,utils  = require('../../models/utils')
    ,jixiang = require('../../models/base');
 
 exports.index = function(req,res){
@@ -95,6 +95,20 @@ exports.index = function(req,res){
     if(add !==0){ //增加问题
       if(req.body.toteacher){
         qdata.toteacher = req.body.toteacher;
+        if(typeof req.body.toteacher === 'string'){
+           jixiang.getOne({realname:req.body.toteacher},'users',function(err,doc){
+               if(err)console.log(err);
+               utils.email(doc.email,req.session.user.username+'向您提了一个问题！',qdata.q,'<p>'+qdata.q+'<a href="'+config.base+'teach/'+doc.username+'/question?cat=2">点击去回答这个问题</p>')
+           })
+        }else if(typeof req.body.toteacher === 'object'){
+           req.body.toteacher.forEach(function(item,index){
+              jixiang.getOne({realname:item},'users',function(err,doc){
+                 console.log(doc)
+                if(err)console.log(err);
+                utils.email(doc.email,req.session.user.username+'向您提了一个问题！',qdata.q,'<p>'+qdata.q+'<a href="'+config.base+'teach/'+doc.username+'/question?cat=2">点击去回答这个问题</p>')
+              })
+           })
+        }
         qdata.askuser = req.session.user.username;
         msg = '问题提交成功，请耐心等待老师回复！';
         redirect = '/q/teacher';
