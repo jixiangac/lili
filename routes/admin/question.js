@@ -110,6 +110,7 @@ exports.index = function(req,res){
            })
         }
         qdata.askuser = req.session.user.username;
+        qdata.askdate = new Date()*1;
         msg = '问题提交成功，请耐心等待老师回复！';
         redirect = '/q/teacher';
       }

@@ -1,0 +1,18 @@
+{
+    "family": "jixiangac",
+    "name": "asklili",
+    "version": "1.0.0",
+    "description": "asklili is nothing..",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/jixiangac/asklili.git"
+    },
+    "keywords": ["asklili"],
+    "spm": {
+        "source": "src",
+        "output": ["index.js"],
+        "engines": {
+            "seajs": "seajs/seajs/1.2.0/sea.js"
+        }
+    }
+}

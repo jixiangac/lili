@@ -15,7 +15,50 @@ define(function(require){
      ,format : 'YYYY-MM-DD'
     });    
   }
-
+  if(document.getElementById('charts')){
+      require('./lib/highcharts');
+      $('#charts').highcharts({
+            chart: {
+            },
+            title: {
+                text: '一月提问走势'
+            },
+            xAxis: {
+                categories: ['Apples', 'Oranges', 'Pears', 'Bananas', 'Plums']
+            },
+            tooltip: {
+                formatter: function() {
+                    var s;
+                        s = ''+this.x  +':信息 '+ this.y;
+                    return s;
+                }
+            },
+            labels: {
+                items: [{
+                    html: '统计你的提问频率',
+                    style: {
+                        left: '40px',
+                        top: '8px',
+                        color: 'black'
+                    }
+                }]
+            },
+            series: [{
+                type: 'column',
+                name: 'Jane',
+                data: [3, 2, 1, 3, 4]
+            }, {
+                type: 'spline',
+                name: 'Average',
+                data: [3, 2.67, 3, 6.33, 3.33],
+                marker: {
+                  lineWidth: 10,
+                  lineColor: Highcharts.getOptions().colors[3],
+                  fillColor: 'white'
+                }
+            }]
+        });
+  }
   //删除
   var popbox = require('./models/popbox');
   $('.btn-del').on('click',function(){

@@ -8,7 +8,7 @@ var crypto = require('crypto')
 
 var index = function(req,res){
   if(req.method == 'GET'){
-    var n = 2;
+    var n = 3;
     var result = {};
     if(!req.session.user){//没登入跳入登入页面
        render();
@@ -36,7 +36,21 @@ var index = function(req,res){
       result.links = doc;
       --n || render();
     });
-
+    //提问数据
+    jixiang.get({
+      query:{
+        askuser:req.session.user.username
+      },
+      get : {
+        askdate : 1
+      }
+    },'qa',function(err,doc){
+      if(err)doc=[];
+      if(doc.length){
+        console.log(doc)
+      }
+      --n || render();
+    });
     function render(){
       res.render('./index/index',
         {
