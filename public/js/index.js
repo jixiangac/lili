@@ -21,10 +21,26 @@ define(function(require){
             chart: {
             },
             title: {
-                text: '一月提问走势'
+                text: '月提问走势图',
+                style : {
+                  color: '#900f49',
+                  fontSize :'28px',
+                  fontFamily :'MicroSoft YaHei'
+                }
             },
             xAxis: {
                 categories: ['Apples', 'Oranges', 'Pears', 'Bananas', 'Plums']
+            },
+            yAxis: {
+               title : {
+                 text : '问题个数',
+                 style : {
+                  color: '#ff775c',
+                  fontFamily :'MicroSoft YaHei',
+                  fontWeight: 'normal',
+                  fontSize: '14px'
+                 }
+               }
             },
             tooltip: {
                 formatter: function() {
@@ -33,26 +49,16 @@ define(function(require){
                     return s;
                 }
             },
-            labels: {
-                items: [{
-                    html: '统计你的提问频率',
-                    style: {
-                        left: '40px',
-                        top: '8px',
-                        color: 'black'
-                    }
-                }]
-            },
             series: [{
                 type: 'column',
-                name: 'Jane',
+                name: '未解决个数',
                 data: [3, 2, 1, 3, 4]
-            }, {
+            },{
                 type: 'spline',
                 name: 'Average',
-                data: [3, 2.67, 3, 6.33, 3.33],
+                data: [3, 2, 1, 3, 4],
                 marker: {
-                  lineWidth: 10,
+                  lineWidth: 1,
                   lineColor: Highcharts.getOptions().colors[3],
                   fillColor: 'white'
                 }

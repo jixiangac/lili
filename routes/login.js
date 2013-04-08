@@ -43,11 +43,35 @@ var index = function(req,res){
       },
       get : {
         askdate : 1
+      },
+      sort : {
+        askdate : -1
       }
     },'qa',function(err,doc){
       if(err)doc=[];
+      var list = new Object();
+      // var df = new Object();
       if(doc.length){
-        console.log(doc)
+        var start = doc[0].askdate;
+        var num = 0;
+        for(var i=0;i<doc.length;i++){
+          if(doc[i].askdate <= start && doc[i].askdate >(start-36000) ){
+             ++num;
+          }else{
+            list[start] = num;
+            num = 1;
+            if(i === doc.length-1){
+               list[doc[i].askdate] = num;
+            }else{
+              start = doc[i].askdate;
+            }
+          }
+        }
+        for(var key in list){
+           var s= utils.format.call(new Date(parseInt(key,10)),'yyyy-MM-dd hh:mm:ss');
+           console.log(s)
+        }
+        console.log(list)
       }
       --n || render();
     });

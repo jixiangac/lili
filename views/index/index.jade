@@ -38,6 +38,7 @@ block content
         .grey-tips.red 公告：#{result.notice}
       h2 提问走势图
       #charts
+        input(type="hidden",value="")
 block link
   if result.links && result.links.length
     .container.link
