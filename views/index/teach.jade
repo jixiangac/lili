@@ -5,6 +5,8 @@ block content
       //公告处
       if !!result.notice
         .grey-tips.red 公告：#{result.notice}
+      input(id="data-charts",value="#{result.total}",type="hidden",data-flg="teach")
+      #charts
     if template === 2
         form.form-inline.ajax-form(action="/user/info?front=2&cat=2&uid="+people._id,method="post")
           table.table.order-table

@@ -14,6 +14,11 @@ var index = function(req,res){
        render();
        return;
     }
+    if(req.session.user.cat === 2){
+      return res.redirect('/teach');
+    }else if(req.session.user.cat === 3){
+      return res.redirect('/admin');
+    }
     //公告
     jixiang.get({
       sort:{release_time:-1}
@@ -49,39 +54,34 @@ var index = function(req,res){
       }
     },'qa',function(err,doc){
       if(err)doc=[];
-      var list = new Object();
-      // var df = new Object();
       if(doc.length){
-        var start = doc[0].askdate;
-        var num = 0;
-        for(var i=0;i<doc.length;i++){
-          if(doc[i].askdate <= start && doc[i].askdate >(start-36000) ){
-             ++num;
-          }else{
-            list[start] = num;
-            num = 1;
-            if(i === doc.length-1){
-               list[doc[i].askdate] = num;
-            }else{
-              start = doc[i].askdate;
-            }
-          }
-        }
-        for(var key in list){
-           var s= utils.format.call(new Date(parseInt(key,10)),'yyyy-MM-dd hh:mm:ss');
-           console.log(s)
-        }
-        console.log(list)
+        var list = {};
+        var first = new Date(doc[0].askdate);
+        var firstDate = utils.format.call(first,'yyyy-MM-dd');
+        list[firstDate] = 1;
+        doc.forEach(function(item,index){
+           var date = new Date(item.askdate);
+           if(date.getFullYear() === first.getFullYear() 
+                && date.getMonth() === first.getMonth()
+                && date.getDate() === first.getDate() ){
+             ++list[firstDate];
+           }else{
+              first = new Date(item.askdate);
+              firstDate = utils.format.call(first,'yyyy-MM-dd');
+              list[firstDate] = 1;
+           }
+        });
+        result.total = JSON.stringify(list);
       }
       --n || render();
     });
     function render(){
-      res.render('./index/index',
-        {
-           title: config.name
-          ,user : req.session.user
-          ,result : result
-        });      
+      var renderData = {
+          title : config.name
+         ,user : req.session.user
+         ,result : result
+      }
+      res.render('./index/index',renderData);      
     }
   }else if(req.method == 'POST'){
     //生成口令散列

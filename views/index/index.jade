@@ -36,9 +36,9 @@ block content
       //公告处
       if !!result.notice
         .grey-tips.red 公告：#{result.notice}
-      h2 提问走势图
+      input(id="data-charts",value="#{result.total}",type="hidden")
       #charts
-        input(type="hidden",value="")
+      
 block link
   if result.links && result.links.length
     .container.link

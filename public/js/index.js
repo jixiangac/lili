@@ -17,11 +17,25 @@ define(function(require){
   }
   if(document.getElementById('charts')){
       require('./lib/highcharts');
+      var datalist = JSON.parse( $('#data-charts').val() );
+      var show = {
+         categories : []
+        ,data : []
+      };
+      for(var key in datalist){
+         show.categories.push(key);
+         show.data.push(datalist[key]);
+      }
+      if($('#data-charts').attr('data-flg') === 'teach'){
+        show.title = '被提问';
+      }else{
+        show.title = '提问';
+      }
       $('#charts').highcharts({
             chart: {
             },
             title: {
-                text: '月提问走势图',
+                text: show.title+'走势图',
                 style : {
                   color: '#900f49',
                   fontSize :'28px',
@@ -29,11 +43,11 @@ define(function(require){
                 }
             },
             xAxis: {
-                categories: ['Apples', 'Oranges', 'Pears', 'Bananas', 'Plums']
+                categories: show.categories
             },
             yAxis: {
                title : {
-                 text : '问题个数',
+                 text : show.title+'个数',
                  style : {
                   color: '#ff775c',
                   fontFamily :'MicroSoft YaHei',
@@ -42,26 +56,23 @@ define(function(require){
                  }
                }
             },
+            legend: {
+              enabled : false
+            },
+            credits:{
+              enabled : false
+            },
             tooltip: {
                 formatter: function() {
                     var s;
-                        s = ''+this.x  +':信息 '+ this.y;
+                        s = ''+this.x  +show.title+'个数： '+ this.y+'个';
                     return s;
                 }
             },
             series: [{
                 type: 'column',
-                name: '未解决个数',
-                data: [3, 2, 1, 3, 4]
-            },{
-                type: 'spline',
-                name: 'Average',
-                data: [3, 2, 1, 3, 4],
-                marker: {
-                  lineWidth: 1,
-                  lineColor: Highcharts.getOptions().colors[3],
-                  fillColor: 'white'
-                }
+                name: '问题个数',
+                data: show.data
             }]
         });
   }

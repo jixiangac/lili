@@ -8,7 +8,7 @@ var jixiang = require('../models/base')
 
 exports.index = function(req,res){
   if(req.method == 'GET'){
-    var n = 1;
+    var n = 2;
     var result = {};
     //公告
     jixiang.get({
@@ -26,6 +26,40 @@ exports.index = function(req,res){
       if(doc.length)result.notice = doc[0].content;
       --n || render();
     });
+    //获取被提问数据
+    jixiang.get({
+      query : {
+         toteacher: req.session.user.realname
+      },
+      get : {
+        askdate : 1
+      },
+      sort : {
+        aksdate : -1
+      }
+    },'qa',function(err,doc){
+      if(err)doc = [];
+      if(doc.length){
+        var list = {};
+        var first = new Date(doc[0].askdate);
+        var firstDate = format.call(first,'yyyy-MM-dd');
+        list[firstDate] = 1;
+        doc.forEach(function(item,index){
+           var date = new Date(item.askdate);
+           if(date.getFullYear() === first.getFullYear() 
+                && date.getMonth() === first.getMonth()
+                && date.getDate() === first.getDate() ){
+             ++list[firstDate];
+           }else{
+              first = new Date(item.askdate);
+              firstDate = format.call(first,'yyyy-MM-dd');
+              list[firstDate] = 1;
+           }
+        });
+        result.total = JSON.stringify(list);
+      }
+      --n || render();
+    })
     function render(){
       res.render('./index/teach',
         {

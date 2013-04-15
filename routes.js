@@ -54,6 +54,18 @@ module.exports = function(app){
   //-------------------
   //   老师首页
   //-------------------
+  app.all(/\/teach\/?\w*/,function(req,res,next){
+    if(!!req.session.user){
+       if(req.session.user.cat === 1){
+          return res.redirect('/');
+       }else if(req.session.user.cat === 3){
+          return res.redirect('/admin');
+       }
+      next();
+    }else{
+      return res.redirect('/');
+    }
+  });
   app.get('/teach',teacher.index);
   //--------------------
   //     个人资料-老师
@@ -68,9 +80,9 @@ module.exports = function(app){
           后台路由
     ===================*/
   app.all(/\/admin\/?\w*/,function(req,res,next){
-    // if(!req.session.user || req.session.user.cat !==3){
-    //    return res.redirect('/');
-    // }
+    if(!req.session.user || req.session.user.cat !==3){
+       return res.redirect('/');
+    }
     next();
   });
   //-------------------
