@@ -35,7 +35,23 @@ exports.index = function(req,res){
       });
       return;
     }
-    jixiang.count({},'qa',function(err,count){
+    var tag = req.query.tag || '';
+    var query = {};
+    if(tag.length){
+      switch(tag){
+        case '分类' : 
+          query.catCat = tag;
+          break;
+        case '章节' :
+          query.catChapter = tag;
+          break;
+        case '专题' :
+          query.catTopic = tag;
+          break;
+      }
+    }
+    result.search = tag;
+    jixiang.count(query,'qa',function(err,count){
       if(err)return res.json({flg:0,msg:err});
       // 分页
       var pages = parseInt(req.query.page,10) || 1;
@@ -49,9 +65,10 @@ exports.index = function(req,res){
         ,next : pages+1
         ,prev : pages-1
       }
+      condition.query = query;
       if(pageNum.cur > pageNum.max)return;
-
       jixiang.get(condition,'qa',function(err,doc){
+        console.log(doc)
         if(err)doc=[];
         result.qa = doc;
         render(pageNum);

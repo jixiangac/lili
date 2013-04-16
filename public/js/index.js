@@ -146,4 +146,10 @@ define(function(require){
      var tr = $(this).parents('tr');
      tr.fadeOut('fast',function(){tr.remove();})
   });
+  //选择&搜索
+  $('#thecat').on('change',function(){
+    var $this = $(this);
+    var url = window.location.pathname+'?tag='+$this.val();
+    window.location.href = url;
+  });
 })

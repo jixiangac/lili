@@ -11,6 +11,20 @@ block content
           tr.separate
             th(colspan="5")
           tr
+            th(colspan="5",style="text-align:left;padding:5px")
+              .form-inline
+                select.fl-l(id="thecat",name="thecat")
+                  - var cats = ['全部','分类','章节','专题'];
+                  each item in cats
+                    -var selected = false
+                    if item == result.search
+                      -selected = true
+                    option(value=item,selected=selected)= item
+              form.form-inline.fl-r
+                  input(id="keyword",name="keyword",type="text")
+                  button(type="submit",class="btn") 搜索
+
+          tr
             th 问题
             th 分类
             th 章节
