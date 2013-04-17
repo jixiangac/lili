@@ -12,14 +12,22 @@ block content
             th(colspan="5")
           tr
             th(colspan="5",style="text-align:left;padding:5px")
-              .form-inline
+              #select-cat.form-inline.fl-l
                 select.fl-l(id="thecat",name="thecat")
                   - var cats = ['全部','分类','章节','专题'];
-                  each item in cats
+                  each item,index in cats
                     -var selected = false
-                    if item == result.search
+                    if index == result.catCat
                       -selected = true
-                    option(value=item,selected=selected)= item
+                    option(value=index,selected=selected)= item
+                if result.catCat
+                  select(id="getCat",name="getCat")
+                    option(value="0") 请选择..
+                    each item in result.catTag
+                     -var selected = false
+                     if result.search == item.name
+                        -selected = true
+                      option(value=item.name,selected=selected)= item.name
               form.form-inline.fl-r
                   input(id="keyword",name="keyword",type="text")
                   button(type="submit",class="btn") 搜索
@@ -74,6 +82,7 @@ block content
                         -list += '<option value="'+item.name+'">'+item.name+'</option>';
                     if !!list
                       select(name=key)
+                        option(value="无") 无
                         !{list}
                     else
                       | 还没有#{catArray[key].name}，
@@ -120,6 +129,7 @@ block content
                         -list += ' value="'+item.name+'">'+item.name+'</option>';
                     if !!list
                       select(name=key)
+                        option(value="无") 无
                         !{list}
                     else
                       | 还没有#{catArray[key].name}，

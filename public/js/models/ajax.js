@@ -15,6 +15,11 @@ define(function(require,exports,module){
     }
     var formId = this.id;
     var data = $(this).serialize();
+    if(formId == 'toteacher' && data.indexOf('toteacher') < 0){
+       new popbox.tinyTips('error','请选择老师');
+       return false;
+    }
+
     var tips = new popbox.tinyTips();
     $.ajax({
         url : $(this).attr('action')
@@ -32,7 +37,7 @@ define(function(require,exports,module){
                window.location.href = res.redirect;
              else
                window.location.reload();
-           },2000);
+           },500);
          }else if(res.flg === 2){
             tips.close();
             $('#answers').html('<div class="grey-tips">'+res.answers.a+'</div>');

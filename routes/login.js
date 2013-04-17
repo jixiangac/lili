@@ -58,13 +58,15 @@ var index = function(req,res){
         var list = {};
         var first = new Date(doc[0].askdate);
         var firstDate = utils.format.call(first,'yyyy-MM-dd');
-        list[firstDate] = 1;
+        list[firstDate] = 0;
         doc.forEach(function(item,index){
            var date = new Date(item.askdate);
            if(date.getFullYear() === first.getFullYear() 
                 && date.getMonth() === first.getMonth()
                 && date.getDate() === first.getDate() ){
-             ++list[firstDate];
+               list[firstDate]++;
+             console.log('after')
+             console.log(list[firstDate])
            }else{
               first = new Date(item.askdate);
               firstDate = utils.format.call(first,'yyyy-MM-dd');
@@ -88,6 +90,7 @@ var index = function(req,res){
     var md5 = crypto.createHash('md5');
     var password = md5.update(req.body.password).digest('base64');
     var cat = parseInt(req.body.cat,10) || 1;
+    
     jixiang.getOne({username:req.body.username,cat : cat},'users',function(err,user){
       if(!user){
         return res.json({flg:0,msg:'用户名或者密码错误！'});
@@ -120,3 +123,16 @@ var index = function(req,res){
 }
 
 exports.index = index;
+
+//测试
+exports.test = function(req,res){
+   // var jixiang1 = new jixiang();
+  if(req.method == 'GET'){
+    res.render('./index/test',{
+      title : '测试'
+     ,user : req.session.user
+    });
+  }else if(req.method == 'POST'){
+    
+  }
+}

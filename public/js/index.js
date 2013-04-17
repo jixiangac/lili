@@ -15,7 +15,7 @@ define(function(require){
      ,format : 'YYYY-MM-DD'
     });    
   }
-  if(document.getElementById('charts')){
+  if(document.getElementById('charts') && document.getElementById('data-charts')){
       require('./lib/highcharts');
       var datalist = JSON.parse( $('#data-charts').val() );
       var show = {
@@ -149,7 +149,30 @@ define(function(require){
   //选择&搜索
   $('#thecat').on('change',function(){
     var $this = $(this);
-    var url = window.location.pathname+'?tag='+$this.val();
-    window.location.href = url;
+    if(!parseInt($this.val(),10)){//如果是全部跳转
+      window.location.href = window.location.pathname;
+      return;
+    }
+    var url = window.location.pathname+'/cat/get?cat='+$this.val();
+    $.get(url,function(res){
+       // console.log(res)
+       if(res.success){
+          var list = '';
+          var name;
+          for(var i=0,len=res.list.length;i<len;i++){
+             name = res.list[i].name;
+             list += '<option value="'+name+'">'+name+'</option>';
+          }
+          var pa = $this.parent();
+          pa.find('#getCat').remove();
+          if(list)
+            pa.append('<select name="getCat" id="getCat"><option value="0">请选择..</option>'+list+'</select>')
+       }else{
+         alert('服务器卖萌了！')
+       }
+    })
   });
+  $('#select-cat').delegate('#getCat','change',function(){
+     window.location.href = window.location.pathname + '?cat='+$('#thecat').val()+'&tag='+this.value;
+  })
 })
