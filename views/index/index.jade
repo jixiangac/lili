@@ -36,8 +36,11 @@ block content
       //公告处
       if !!result.notice
         .grey-tips.red 公告：#{result.notice}
-      input(id="data-charts",value="#{result.total}",type="hidden")
-      #charts
+      if result.total
+        input(id="data-charts",value="#{result.total}",type="hidden")
+        #charts
+      else
+        #charts 还没有数据支持生成图表，开始你的提问之旅吧～
       
 block link
   if result.links && result.links.length

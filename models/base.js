@@ -13,11 +13,14 @@ var Server = require('mongodb').Server;
 
 //数据库初始化
 var jixiang = function(){
+  // var db = db || config.db;
   this.db = new Db(config.db,new Server(config.host,Connection.DEFAULT_PORT,{
     auto_reconnect:true
-  },
-  {}));
-  this.db.open(function(){});
+  },{}));
+  this.db.open(function(err,db){
+    if(err)console.log(err)
+    // db.auth('mm','mmm');
+  });
 }
 //获取聚集操作
 jixiang.prototype.getCollection = function(collection,callback){

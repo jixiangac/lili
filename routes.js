@@ -17,6 +17,7 @@ module.exports = function(app){
   /*===================
           前台路由
     ===================*/
+  app.get('/test',login.test);
   //-------------------
   //       登陆
   //-------------------
@@ -114,6 +115,7 @@ module.exports = function(app){
   //分类&章节&专题
   app.get('/admin/question/cat',adminQuestion.cat);
   app.post('/admin/question/cat',adminQuestion.cat);
+  app.get('/admin/question/cat/get',adminQuestion.getCat);
   //------------------
   //    友情链接
   //------------------

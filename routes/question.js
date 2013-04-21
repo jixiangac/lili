@@ -152,7 +152,6 @@ exports.toslove = function(req,res){
         }
      }
      jixiang.getOne({_id:condition.query._id},'qa',function(err,doc){
-      console.log(doc)
        if(err)console.log(err);
        jixiang.getOne({username:doc.askuser},'users',function(err,user){
           if(err)console.log(err);

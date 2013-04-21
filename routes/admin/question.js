@@ -36,21 +36,26 @@ exports.index = function(req,res){
       return;
     }
     var tag = req.query.tag || '';
+    result.catCat = parseInt(req.query.cat,10) || null;
     var query = {};
-    if(tag.length){
-      switch(tag){
-        case '分类' : 
+    if(result.catCat){
+      switch(result.catCat){
+        case 1 : 
           query.catCat = tag;
           break;
-        case '章节' :
+        case 2 :
           query.catChapter = tag;
           break;
-        case '专题' :
+        case 3 :
           query.catTopic = tag;
           break;
       }
     }
     result.search = tag;
+
+    if(req.query.keyword){
+      query.q = new RegExp(req.query.keyword,'gi');
+    }
     jixiang.count(query,'qa',function(err,count){
       if(err)return res.json({flg:0,msg:err});
       // 分页
@@ -67,12 +72,26 @@ exports.index = function(req,res){
       }
       condition.query = query;
       if(pageNum.cur > pageNum.max)return;
+
+      var n = 2;
+      jixiang.get({
+        query : {
+          cat:result.catCat
+        }
+       ,get : {
+          name: 1
+       }
+      },'qcat',function(err,doc){
+        if(err)doc=[];
+        result.catTag = doc;
+        --n || render(pageNum);
+      })
       jixiang.get(condition,'qa',function(err,doc){
-        console.log(doc)
         if(err)doc=[];
         result.qa = doc;
-        render(pageNum);
+        --n || render(pageNum);
       });
+
     });
 
     function render(){
@@ -221,5 +240,24 @@ exports.cat = function(req,res){
          return res.json({flg:1,msg:'修改成功'});
       });
     }
+  }
+}
+
+exports.getCat = function(req,res){
+  if(req.method === 'GET'){
+    var cat = parseInt(req.query.cat,10) || null;
+    jixiang.get({
+      query : {
+        cat : cat
+      }
+      ,get : {
+        name : 1
+      }
+    },'qcat',function(err,doc){
+       if(err)doc=[];
+       return res.json({success: true,list:doc})
+    })
+  }else if(req.method === 'POST'){
+    
   }
 }
