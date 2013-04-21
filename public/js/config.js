@@ -1,8 +1,4 @@
 seajs.config({
-  // Set aliases for common libraries
-  alias: {
-    'jquery': 'lib/jquery.js'
-  },
   // Add plugins
   plugins: ['shim'],
   // Configure shim for non-CMD modules
@@ -10,6 +6,12 @@ seajs.config({
     'jquery': {
       exports: 'jQuery'
     }
+  },
+  // Set aliases for common libraries
+  alias: {
+    'jquery': 'lib/jquery.js',
+    'highcharts' :'lib/highcharts.js',
+    'kalendae' :'lib/kalendae.js'
   },
   // 预加载jQuery
   preload: ["jquery"]

@@ -4,19 +4,25 @@
 define(function(require){
   var $ = require('jquery');
   window.$ = $;
-  var ajax = require('./models/ajax');
+
+  var ajax = require('./models/ajax')
+     ,popbox = require('./models/popbox')
+     ,validate = require('./models/validate')
+
+
   $('.ajax-form').on('submit',ajax.ajaxForm);
 
   //日期
   if(location.href.indexOf('notice')!==-1){
-    require('./lib/kalendae');
+    require('kalendae');
     new Kalendae.Input('date', {
       months:1
      ,format : 'YYYY-MM-DD'
     });    
   }
+
   if(document.getElementById('charts')){
-      require('./lib/highcharts');
+      require('highcharts');
       var datalist = JSON.parse( $('#data-charts').val() );
       var show = {
          categories : []
@@ -77,7 +83,6 @@ define(function(require){
         });
   }
   //删除
-  var popbox = require('./models/popbox');
   $('.btn-del').on('click',function(){
     if(!confirm('确定删除吗？'))return false;
     var url = $(this).attr('href');
@@ -116,7 +121,6 @@ define(function(require){
        tbody.find('textarea').focus();
      } 
   });
-  validate = require('./models/validate');
   //提交回答
   $('tbody').delegate('.q-reply','click',function(){
       var tbody = $(this).parents('tbody');
