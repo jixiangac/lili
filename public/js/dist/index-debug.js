@@ -1,21 +1,14 @@
 /**
  * Index.js
  */
-define("dist/index-debug", [ "lib/jquery-debug", "./models/ajax-debug", "./models/popbox-debug", "./models/validate-debug", "lib/kalendae-debug", "lib/highcharts-debug" ], function(require) {
-    var $ = require("lib/jquery-debug");
-    window.$ = $;
+define("dist/index-debug", [ "./models/ajax-debug", "./models/popbox-debug", "./models/validate-debug", "highcharts-debug" ], function(require) {
+    // var $ = require('jquery');
+    // window.$ = $;
     var ajax = require("./models/ajax-debug"), popbox = require("./models/popbox-debug"), validate = require("./models/validate-debug");
     $(".ajax-form").on("submit", ajax.ajaxForm);
-    //日期
-    if (location.href.indexOf("notice") !== -1) {
-        require("lib/kalendae-debug");
-        new Kalendae.Input("date", {
-            months: 1,
-            format: "YYYY-MM-DD"
-        });
-    }
-    if (document.getElementById("charts")) {
-        require("lib/highcharts-debug");
+    //图表
+    if (document.getElementById("charts") && document.getElementById("data-charts")) {
+        require("highcharts-debug");
         var datalist = JSON.parse($("#data-charts").val());
         var show = {
             categories: [],
@@ -72,6 +65,13 @@ define("dist/index-debug", [ "lib/jquery-debug", "./models/ajax-debug", "./model
                 name: "问题个数",
                 data: show.data
             } ]
+        });
+    }
+    //日期
+    if (location.href.indexOf("notice") !== -1) {
+        new Kalendae.Input("date", {
+            months: 1,
+            format: "YYYY-MM-DD"
         });
     }
     //删除
@@ -135,8 +135,31 @@ define("dist/index-debug", [ "lib/jquery-debug", "./models/ajax-debug", "./model
     //选择&搜索
     $("#thecat").on("change", function() {
         var $this = $(this);
-        var url = window.location.pathname + "?tag=" + $this.val();
-        window.location.href = url;
+        if (!parseInt($this.val(), 10)) {
+            //如果是全部跳转
+            window.location.href = window.location.pathname;
+            return;
+        }
+        var url = window.location.pathname + "/cat/get?cat=" + $this.val();
+        $.get(url, function(res) {
+            // console.log(res)
+            if (res.success) {
+                var list = "";
+                var name;
+                for (var i = 0, len = res.list.length; i < len; i++) {
+                    name = res.list[i].name;
+                    list += '<option value="' + name + '">' + name + "</option>";
+                }
+                var pa = $this.parent();
+                pa.find("#getCat").remove();
+                if (list) pa.append('<select name="getCat" id="getCat"><option value="0">请选择..</option>' + list + "</select>");
+            } else {
+                alert("服务器卖萌了！");
+            }
+        });
+    });
+    $("#select-cat").delegate("#getCat", "change", function() {
+        window.location.href = window.location.pathname + "?cat=" + $("#thecat").val() + "&tag=" + this.value;
     });
 });
 
@@ -156,6 +179,10 @@ define("dist/models/ajax-debug", [ "./popbox-debug", "./validate-debug" ], funct
         }
         var formId = this.id;
         var data = $(this).serialize();
+        if (formId == "toteacher" && data.indexOf("toteacher") < 0) {
+            new popbox.tinyTips("error", "请选择老师");
+            return false;
+        }
         var tips = new popbox.tinyTips();
         $.ajax({
             url: $(this).attr("action"),
@@ -168,7 +195,7 @@ define("dist/models/ajax-debug", [ "./popbox-debug", "./validate-debug" ], funct
                     $(".tiny-tips").html('<span class="tiny-right"></span>' + res.msg + '<span class="tiny-end"></span>');
                     setTimeout(function() {
                         if (res.redirect) window.location.href = res.redirect; else window.location.reload();
-                    }, 2e3);
+                    }, 500);
                 } else if (res.flg === 2) {
                     tips.close();
                     $("#answers").html('<div class="grey-tips">' + res.answers.a + "</div>");
@@ -279,6 +306,7 @@ define("dist/models/popbox-debug", [], function(require, exports, module) {
  * @Date            2013/03/05
  */
 define("dist/models/validate-debug", [ "./popbox-debug" ], function(require, exports, module) {
+    var popbox = require("./popbox-debug");
     //验证规则
     var pattern = {
         realname: {
@@ -370,7 +398,6 @@ define("dist/models/validate-debug", [ "./popbox-debug" ], function(require, exp
     exports.defTips = function() {
         Tips(this, "tips", pattern[this.name].tips);
     };
-    var popbox = require("./popbox-debug");
     //验证必填项目
     var require = function() {
         var name = this.name, value = $.trim(this.value);

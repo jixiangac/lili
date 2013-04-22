@@ -2,8 +2,8 @@
  * Index.js
  */
 define(function(require){
-  var $ = require('jquery');
-  window.$ = $;
+  // var $ = require('jquery');
+  // window.$ = $;
 
   var ajax = require('./models/ajax')
      ,popbox = require('./models/popbox')
@@ -11,16 +11,7 @@ define(function(require){
 
 
   $('.ajax-form').on('submit',ajax.ajaxForm);
-
-  //日期
-  if(location.href.indexOf('notice')!==-1){
-    require('kalendae');
-    new Kalendae.Input('date', {
-      months:1
-     ,format : 'YYYY-MM-DD'
-    });    
-  }
-
+  //图表
   if(document.getElementById('charts') && document.getElementById('data-charts')){
       require('highcharts');
       var datalist = JSON.parse( $('#data-charts').val() );
@@ -82,6 +73,14 @@ define(function(require){
             }]
         });
   }
+  //日期
+  if(location.href.indexOf('notice')!==-1){
+    new Kalendae.Input('date', {
+      months:1
+     ,format : 'YYYY-MM-DD'
+    });    
+  }
+  
   //删除
   $('.btn-del').on('click',function(){
     if(!confirm('确定删除吗？'))return false;

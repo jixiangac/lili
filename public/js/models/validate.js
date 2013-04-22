@@ -5,6 +5,9 @@
  * @Date            2013/03/05
  */
 define(function(require,exports,module){
+
+  var popbox = require('./popbox');
+  
   //验证规则
   var pattern = {
     'realname' :{
@@ -99,7 +102,6 @@ define(function(require,exports,module){
   exports.defTips = function(){
      Tips(this,'tips',pattern[this.name].tips)
   }
-  var popbox = require('./popbox');
   //验证必填项目
   var require = function(){
     var name = this.name
