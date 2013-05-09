@@ -14,11 +14,12 @@ var index = function(req,res){
        render();
        return;
     }
-    if(req.session.user.cat === 2){
-      return res.redirect('/teach');
-    }else if(req.session.user.cat === 3){
-      return res.redirect('/admin');
-    }
+
+    // if(req.session.user.cat === 2){
+    //   return res.redirect('/teach');
+    // }else if(req.session.user.cat === 3){
+    //   return res.redirect('/admin');
+    // }
     //公告
     jixiang.get({
       sort:{release_time:-1}

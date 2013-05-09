@@ -1,7 +1,7 @@
 /**
  * Index.js
  */
-define("dist/index-debug", [ "./models/ajax-debug", "./models/popbox-debug", "./models/validate-debug", "highcharts-debug" ], function(require) {
+define("dist/index-debug", [ "./models/ajax-debug", "./models/popbox-debug", "./models/validate-debug", "highcharts-debug", "kalendae-debug" ], function(require) {
     // var $ = require('jquery');
     // window.$ = $;
     var ajax = require("./models/ajax-debug"), popbox = require("./models/popbox-debug"), validate = require("./models/validate-debug");
@@ -69,6 +69,7 @@ define("dist/index-debug", [ "./models/ajax-debug", "./models/popbox-debug", "./
     }
     //日期
     if (location.href.indexOf("notice") !== -1) {
+        require("kalendae-debug");
         new Kalendae.Input("date", {
             months: 1,
             format: "YYYY-MM-DD"

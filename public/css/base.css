@@ -23,14 +23,14 @@
 #main{
   border: 1px solid #d7d7d7;
   border-radius: 3px;
-  background: #fff;
+  background: #fff url(../images/side.jpg) left 0 repeat-y;
 }
 .content{
   width: 100%;
   float: left;
 }
 .main{
-  margin-left: 200px;
+  margin-left: 201px;
   background:#fff;
   padding: 20px;
 }

@@ -77,6 +77,49 @@ block content
           else
             caption 你没有未解决的问题，去提个问题吧～
         include ../layout/pagenav
+      if cat === 3
+        //机器人类别的问题
+        table.table.order-table
+          if result.q && result.q.length
+            caption 你还有#{result.count}条对机器人的提问未解决
+              a.pink.fl-r(href="/stu/#{user.username}/question?cat=4") 查看已解决的
+            each item in result.q      
+              tbody
+                tr.separate
+                tr.tab-head
+                  td(colspan="2")
+                    a 该问题正在等待回复
+                tr
+                  td.q 问题：
+                  td.aleft= item.q
+          else
+            caption 没有对机器人的未解决的问题，
+              a.pink(href="/stu/#{user.username}/question?cat=4") 查看已解决的
+        include ../layout/pagenav
+      if cat === 4
+        //机器人类别的问题，已经解决
+        table.table.order-table
+          if result.q && result.q.length
+            caption 你还有#{result.count}条对机器人的提问未解决
+              a.pink.fl-r(href="/stu/#{user.username}/question?cat=3") 查看未解决的
+            each item in result.q      
+              tbody
+                tr.separate
+                tr.tab-head
+                  td(colspan="2")
+                    a 该问题正在等待回复
+                tr
+                  td.q 问题：
+                  td.aleft= item.q
+                tr
+                  td.q 答复
+                  td.aleft= item.a
+          else
+            caption 没有对机器人的已解决的问题，
+              a.pink(href="/stu/#{user.username}/question?cat=3") 查看未解决的
+        include ../layout/pagenav
+    if template === 4
+      include question_center
 
 
           

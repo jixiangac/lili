@@ -13,6 +13,8 @@
         a.item(href="/q/robot") 问机器人
       li
         a.item(href="/q/teacher") 提问老师
+      li
+        a.item(href="/q/center") 问题中心
   div.category-item
     .category.clearfix
       .name 
@@ -23,6 +25,9 @@
         a.item(href="/stu/#{user.username}/question?cat=1") 已解决
       li
         a.item(href="/stu/#{user.username}/question?cat=2") 未解决
+      li
+        a.item(href="/stu/#{user.username}/question?cat=3") 机器人
+
   div.category-item
     .name 
       a(href="/stu/#{user.username}") 个人资料

@@ -11,7 +11,10 @@ html
           #main.clearfix
             .content
               block content
-            include sidebar
+            if user.cat === 1
+              include sidebar
+            else
+              include sidebar_teach
           block link
       else
         block content

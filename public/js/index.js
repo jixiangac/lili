@@ -75,6 +75,7 @@ define(function(require){
   }
   //日期
   if(location.href.indexOf('notice')!==-1){
+    require('kalendae')
     new Kalendae.Input('date', {
       months:1
      ,format : 'YYYY-MM-DD'

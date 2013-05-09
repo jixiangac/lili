@@ -193,6 +193,7 @@ exports.cat = function(req,res){
     jixiang.get({
       query :{
         cat : cat
+       ,isRobot : null
       }
     },'qcat',function(err,doc){
       if(err)doc=[];

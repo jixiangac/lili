@@ -23,7 +23,14 @@ exports.index = function(req,res){
         var num = parseInt(Math.random()*doc.length,10);
         return res.json({flg:2,answers:doc[num]});
        }
-       return res.json({flg:0,msg:'抱歉这题我还不会>_<'});
+       var newQ = {
+          q : q
+         ,isRobot : true
+         ,isAnswer : false
+         ,askuser : req.session.user.username
+       }
+       jixiang.save(newQ,'qa',function(err,doc){});
+       return res.json({flg:0,msg:'抱歉这题我还不会>_<,但是我帮你记录下来了哦！'});
      })
   }
 
@@ -59,7 +66,11 @@ exports.noslove = function(req,res){
     var condition = {
        askuser : req.session.user.username
       ,isAnswer : (cat===1)
+      ,isRobot : null
     };
+    if(cat >= 3 )condition.isRobot = true;
+    if(cat === 4)condition.isAnswer = true; 
+    console.log(condition)
     jixiang.count(condition,'qa',function(err,count){
        result.count = count;
        var res = utils.pagenav(req.query.page,count,7);
@@ -77,9 +88,10 @@ exports.noslove = function(req,res){
        });
 
     });
+    var catname = ['已解决','未解决','机器人','机器人已解决'];
     function render(){
       var renderData = {
-        title : config.name + '未解决'
+        title : config.name + catname[cat-1]
        ,user : req.session.user
        ,template : 3
        ,result : result
@@ -167,5 +179,88 @@ exports.toslove = function(req,res){
        if(err)return res.json({flg: 0,msg: err});
        return res.json({flg:1,msg:'回答成功！'})
      });
+  }
+}
+
+//问题中心
+exports.center = function(req,res){
+  if(req.method === 'GET'){
+    var result = {};
+    var tag = req.query.tag || '';
+    result.catCat = parseInt(req.query.cat,10) || null;
+    var query = {};
+    if(result.catCat){
+      switch(result.catCat){
+        case 1 : 
+          query.catCat = tag;
+          break;
+        case 2 :
+          query.catChapter = tag;
+          break;
+        case 3 :
+          query.catTopic = tag;
+          break;
+      }
+    }
+    result.search = tag;
+    if(req.query.keyword){
+      query.q = new RegExp(req.query.keyword,'gi');
+    }
+    query.isRobot = null;
+    query.isAnswer = true;
+    jixiang.count(query,'qa',function(err,count){
+      if(err)return res.json({flg:0,msg:err});
+      // 分页
+      var pages = parseInt(req.query.page,10) || 1;
+      var condition = {
+         skip : (pages-1)*7
+        ,limit : 7
+      }
+      var pageNum = {
+         max : Math.ceil(count/7) ? Math.ceil(count/7) : 1
+        ,cur : pages
+        ,next : pages+1
+        ,prev : pages-1
+      }
+      condition.query = query;
+      if(pageNum.cur > pageNum.max)return;
+
+      var n = 2;
+      jixiang.get({
+        query : {
+          cat:result.catCat
+        }
+       ,get : {
+          name: 1
+       }
+      },'qcat',function(err,doc){
+        if(err)doc=[];
+        result.catTag = doc;
+        --n || render(pageNum);
+      })
+      jixiang.get(condition,'qa',function(err,doc){
+        if(err)doc=[];
+        result.qa = doc;
+        --n || render(pageNum);
+      });
+
+    });
+    
+    function render(){
+      var renderData = {
+        title : config.name + '问题中心'
+       ,user : req.session.user
+       ,template : 4
+       ,result : result
+      }
+      if(arguments.length){
+       renderData.pages = arguments[0];
+       renderData.pagenav = '/q/center?';
+      }
+      res.render('./index/question',renderData);      
+    }
+
+  }else if(req.method === 'POST'){
+
   }
 }

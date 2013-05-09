@@ -122,6 +122,43 @@ p{
 .red{
   color: #f75b5e;
 }
+/*宽度*/
+.span1{
+  width: 10px;
+}
+.span2{
+  width: 20px;
+}
+.span3{
+  width: 30px;
+}
+.span4{
+  width: 40px;
+}
+.span5{
+  width: 50px;
+}
+.span6{
+  width: 60px;
+}
+.span7{
+  width: 70px;
+}
+.span8{
+  width: 80px;
+}
+.span9{
+  width: 90px;
+}
+.span10{
+  width: 100px;
+}
+.span15{
+  width: 150px;
+}
+.span20{
+  width: 200px;
+}
 /*H*/
 .hbt{
   margin-top: 20px;

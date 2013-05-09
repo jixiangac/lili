@@ -1,0 +1,52 @@
+//问题中心
+table.table.order-table
+  caption 问题中心
+  thead.tab-title
+    tr.separate
+      th(colspan="5")
+    tr
+      th(colspan="5",style="text-align:left;padding:5px")
+        #select-cat.form-inline.fl-l
+          select.fl-l(id="thecat",name="thecat")
+            - var cats = ['全部','分类','章节','专题'];
+            each item,index in cats
+              -var selected = false
+              if index == result.catCat
+                -selected = true
+              option(value=index,selected=selected)= item
+          if result.catCat
+            select(id="getCat",name="getCat")
+              option(value="0") 请选择..
+              each item in result.catTag
+               -var selected = false
+               if result.search == item.name
+                  -selected = true
+                option(value=item.name,selected=selected)= item.name
+        form.form-inline.fl-r
+            input(id="keyword",name="keyword",type="text")
+            button(type="submit",class="btn") 搜索
+
+    tr
+      th.span20 问题
+      th 答案
+      th.span8 分类
+      th.span8 章节
+      th.span8 专题
+      
+  tbody
+    if !!result.qa && result.qa.length
+      each item in result.qa
+        -var catCat = item.catCat || '无',catChapter = item.catChapter || '无',catTopic = item.catTopic || '无';
+        -var theA = item.a || '暂无答案';
+        tr
+          td.q= item.q
+          td= theA
+          td= catCat
+          td= catChapter
+          td= catTopic
+          
+    else
+      tr
+        td(colspan='5')
+         a 没有找到你的问题，请再试试
+include ../layout/pagenav

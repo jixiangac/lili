@@ -50,13 +50,13 @@ module.exports = function(grunt){
        }
      }
     }
-    // ,uglify: {
-    //   index : {
-    //     files : {
-    //       'dist/index.js' : ['dist/index.js']
-    //     }
-    //   }
-    // }
+    ,uglify: {
+      index : {
+        files : {
+          'dist/index.js' : ['dist/index.js']
+        }
+      }
+    }
     
     ,clean : {
       spm : ['.build']
@@ -67,5 +67,5 @@ module.exports = function(grunt){
   grunt.loadNpmTasks('grunt-cmd-concat');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.registerTask('build',['transport','concat','clean']);
+  grunt.registerTask('build',['transport','concat','uglify','clean']);
 }
