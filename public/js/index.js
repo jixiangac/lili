@@ -172,11 +172,36 @@ define(function(require){
           if(list)
             pa.append('<select name="getCat" id="getCat"><option value="0">请选择..</option>'+list+'</select>')
        }else{
-         alert('服务器卖萌了！')
+         alert('服务器卖萌了！');
        }
     })
   });
   $('#select-cat').delegate('#getCat','change',function(){
      window.location.href = window.location.pathname + '?cat='+$('#thecat').val()+'&tag='+this.value;
   })
+
+  //提问老师的选择
+  $('#q-select').on('change',function(){
+     var $this = $(this);
+     if( !+$this.val() ){
+        $this.parent().find('#cat_children').remove();
+        return;
+     }
+     $.get('/q/center/cat/get?cat='+$this.val(),function(res){
+       if(res.success){
+          var list = '';
+          var name;
+          for(var i=0,len=res.list.length;i<len;i++){
+             name = res.list[i].name;
+             list += '<option value="'+name+'">'+name+'</option>';
+          }
+          var pa = $this.parent();
+          pa.find('#cat_children').remove();
+          if(list)
+            pa.append('<select name="cat_children" id="cat_children"><option value="无">无</option>'+list+'</select>');
+       }else{
+         alert('服务器卖萌了！');
+       }
+     })
+  });
 })

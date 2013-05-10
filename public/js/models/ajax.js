@@ -7,6 +7,7 @@
 define(function(require,exports,module){
   var popbox = require('./popbox')
      ,validate = require('./validate');
+
   var ajaxForm = function(){
     for(var i=0,re=$('.require'),len =re.length;i<len;i++){
       if( !validate.require.call(re[i]) ) {
@@ -19,7 +20,6 @@ define(function(require,exports,module){
        new popbox.tinyTips('error','请选择老师');
        return false;
     }
-
     var tips = new popbox.tinyTips();
     $.ajax({
         url : $(this).attr('action')
@@ -32,15 +32,20 @@ define(function(require,exports,module){
        ,success : function(res){
          if(res.flg === 1){
            $('.tiny-tips').html('<span class="tiny-right"></span>'+res.msg+'<span class="tiny-end"></span>');
-           setTimeout(function(){
-             if(res.redirect)
-               window.location.href = res.redirect;
-             else
-               window.location.reload();
-           },500);
+           // setTimeout(function(){
+           //   if(res.redirect)
+           //     window.location.href = res.redirect;
+           //   else
+           //     window.location.reload();
+           // },500);
          }else if(res.flg === 2){
             tips.close();
-            $('#answers').html('<div class="grey-tips">'+res.answers.a+'</div>');
+            if(res.cover && res.cover === 1){//忘记密码
+               $('form fieldset').html('<p style="font-size:200%">'+res.msg+'</p>');
+            }else{
+              $('#answers').html('<div class="grey-tips">'+res.answers.a+'</div>');
+            }
+            
          }else{
            tips.close();
            new popbox.tinyTips('error',res.msg);

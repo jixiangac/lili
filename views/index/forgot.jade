@@ -1,0 +1,44 @@
+extends ../layout/layout
+block content
+  .container
+    .header
+      h1 《程序设计基础》网上答疑系统
+    if template === 1
+      //忘记密码
+      #forgot-box.shadow-box.login-box
+        form#login-form.form-inline.ajax-form(action="/forgot",method="post")
+          .legend  忘记密码
+          hr
+          hr.decoration
+          .hint
+          fieldset
+            .form-item
+              label 电子邮箱
+              input#email(type="text",name="email",class="require",placeholder="电子邮箱")
+              p.ml70.mt10 请输入您注册帐户时使用的电子邮箱
+            .form-item.form-actions
+              button.btn(type='submit') 提交
+    if template === 2
+      #set-pass-box.shadow-box.login-box
+        form#set-pass-form.form-inline.ajax-form(method="post",action="/setpass")
+          .legend  密码重置
+          hr
+          hr.decoration
+          .hint
+          fieldset
+            if !setpass
+              .form-item
+                label(for="password") 密码
+                input#password(type="password",name="password",class="require")
+              .form-item
+                label(for="repassword") 重复密码
+                input#re-password(type="password",name="repassword",class="require")
+              .form-item.form-actions
+                button.btn(type="submit") 提交
+            else
+              p(style='font-size:200%')= setpass
+      script
+        (function(){
+          var host = location.href;
+          document.getElementById('set-pass-form').setAttribute('action',host);
+        })()

@@ -45,6 +45,7 @@ exports.ask = function(req,res){
        result.teacher = doc;
        --n || render();
     });
+    
     function render(){
       var renderData = {
          title : config.name+'提问老师'

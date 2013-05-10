@@ -20,17 +20,24 @@ block content
                 td.q 问题
                 td.aleft
                   textarea(style="width:270px;height:100px;",name="question")
-                tr
-                  td 提问给
-                  td.aleft
-                    if result.teacher && result.teacher.length
-                        each item in result.teacher
-                          label(for="#{item._id}") 
-                            input(type="checkbox",id=item._id,value="#{item.realname}",name="toteacher")
-                            |#{item.realname}
+              tr
+                td 分类提问
+                td.aleft
+                  select.fl-l(id="q-select",name="thecat")
+                    - var cats = ['无','分类','章节','专题'];
+                    each item,index in cats
+                      option(value=index)= item 
+              tr
+                td 提问给
+                td.aleft
+                  if result.teacher && result.teacher.length
+                      each item in result.teacher
+                        label(for="#{item._id}") 
+                          input(type="checkbox",id=item._id,value="#{item.realname}",name="toteacher")
+                          |#{item.realname}
 
-                    else
-                      |暂无老师
+                  else
+                    |暂无老师
               tr
                 td
                 td.aleft

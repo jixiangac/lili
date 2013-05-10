@@ -29,7 +29,13 @@ module.exports = function(app){
   app.get('/reg',checkNotLogin);
   app.get('/reg',register.index);
   app.post('/reg',register.index);
-
+  //--------------------
+  //     忘记密码
+  //--------------------
+  app.get('/forgot',register.forgot);
+  app.post('/forgot',register.forgot);
+  app.get('/setpass',register.setpass);
+  app.post('/setpass',register.setpass);
   //--------------------
   //    个人资料
   //--------------------
