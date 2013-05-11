@@ -37,22 +37,53 @@ exports.index = function(req,res){
 }
 
 exports.ask = function(req,res){
+   var info = parseInt(req.query.info,10) || 0;
+   var id = parseInt(req.query.id,10) || 0;
   if(req.method == 'GET'){
-    var n = 1;
+    var template = 2;
+    var n = 2;
     var result ={};
+    if(info !== 0){//修改问题
+      template = 5;
+      n = 3;
+      jixiang.getOne({_id:id},'qa',function(err,doc){
+        if(err)doc=[];
+        result.qa = doc;
+        --n || render();
+      });
+
+      jixiang.get({query:{cat:2},get:{realname:1}},'users',function(err,doc){
+         if(err)doc=[];
+         result.teacher = doc;
+         --n || render();
+      });
+
+      jixiang.get({},'qcat',function(err,doc){
+        if(err)doc=[];
+        result.cat = doc;
+        --n || render();
+      });
+      return;
+    }
     jixiang.get({query:{cat:2},get:{realname:1}},'users',function(err,doc){
        if(err)doc=[];
        result.teacher = doc;
        --n || render();
     });
     
+    jixiang.get({},'qcat',function(err,doc){
+       if(err)doc = [];
+       result.cat = doc;
+       --n || render();
+    })
     function render(){
       var renderData = {
          title : config.name+'提问老师'
         ,user : req.session.user
-        ,template : 2
+        ,template : template
         ,result : result
       }
+      console.log(renderData.result.qa)
       res.render('./index/question',renderData);
     }
   }else if(req.method == 'POST'){
@@ -62,45 +93,84 @@ exports.ask = function(req,res){
 
 exports.noslove = function(req,res){
   if(req.method == 'GET'){
+
     var result = {};
-    var cat = parseInt(req.query.cat,10) || 1;
+    var qcat = parseInt(req.query.qcat,10) || 1;//问题类别
+    result.catCat = parseInt(req.query.cat,10) || null;//题目分类
+
+    var tag = req.query.tag || '';//分类&章节&专题名称
+
     var condition = {
        askuser : req.session.user.username
-      ,isAnswer : (cat===1)
+      ,isAnswer : (qcat===1)
       ,isRobot : null
     };
-    if(cat >= 3 )condition.isRobot = true;
-    if(cat === 4)condition.isAnswer = true; 
-    console.log(condition)
+
+    if(result.catCat){
+      switch(result.catCat){
+        case 1 : 
+          condition.catCat = tag;
+          break;
+        case 2 :
+          condition.catChapter = tag;
+          break;
+        case 3 :
+          condition.catTopic = tag;
+          break;
+      }
+    }
+    result.search = tag;
+    if(req.query.keyword){
+      condition.q = new RegExp(req.query.keyword,'gi');
+      result.query = req.query.keyword;
+    }
+    //机器人题目
+    if(qcat >= 3 )condition.isRobot = true;
+    if(qcat === 4)condition.isAnswer = true; 
+
     jixiang.count(condition,'qa',function(err,count){
        result.count = count;
        var res = utils.pagenav(req.query.page,count,7);
        if(!res)return res.redirect('404');
        res.condition.query = condition;
+       var n = 2;
+        jixiang.get({
+          query : {
+            cat:result.catCat
+          }
+         ,get : {
+            name: 1
+         }
+        },'qcat',function(err,doc){
+          if(err)doc=[];
+          result.catTag = doc;
+          --n || render(res.pageNum);
+        });
+
        jixiang.get(res.condition,'qa',function(err,doc){
          if(err)doc=[];
-         if(cat === 1 && doc.length){
+         if(qcat === 1 && doc.length){
             doc.forEach(function(item,index){
               item.replydate = utils.format.call(new Date(item.replydate),'yyyy-MM-dd hh:mm:ss');
             });
          }
          result.q = doc;
-         render(res.pageNum);
+         --n || render(res.pageNum);
        });
 
     });
-    var catname = ['已解决','未解决','机器人','机器人已解决'];
+    var qcatname = ['已解决','未解决','机器人','机器人已解决'];
     function render(){
       var renderData = {
-        title : config.name + catname[cat-1]
+        title : config.name + qcatname[qcat-1]
        ,user : req.session.user
        ,template : 3
        ,result : result
-       ,cat : cat 
+       ,qcat : qcat 
       }
       if(arguments.length){
        renderData.pages = arguments[0];
-       renderData.pagenav = '/stu/'+req.session.user.username+'/question?cat='+cat+'&';
+       renderData.pagenav = '/stu/'+req.session.user.username+'/question?qcat='+qcat+'&';
       }
       res.render('./index/question',renderData);
     }
@@ -111,31 +181,69 @@ exports.noslove = function(req,res){
 
 //老师回答问题
 exports.toslove = function(req,res){
-  var cat = parseInt(req.query.cat ,10) || 1
+  var qcat = parseInt(req.query.qcat ,10) || 1
      ,result = {};
   if(req.method == 'GET'){
      var condition = {};
-    if(cat === 1){
+    if(qcat === 1){
       condition.replyuser = req.session.user.realname;
     }else{
       condition.toteacher = req.session.user.realname;
     }
-    condition.isAnswer = (cat === 1);
+
+    condition.isAnswer = (qcat === 1);
+
+    result.catCat = parseInt(req.query.cat,10) || null;//题目分类
+    if(result.catCat){
+      switch(result.catCat){
+        case 1 : 
+          condition.catCat = tag;
+          break;
+        case 2 :
+          condition.catChapter = tag;
+          break;
+        case 3 :
+          condition.catTopic = tag;
+          break;
+      }
+    }
+
+    var tag = req.query.tag || '';//分类&章节&专题名称
+    result.search = tag;
+
+    if(req.query.keyword){
+      condition.q = new RegExp(req.query.keyword,'gi');
+      result.query = req.query.keyword;
+    }    
     jixiang.count(condition,'qa',function(err,count){
       result.count = count;
       var res = utils.pagenav(req.query.page,count,7);
        if(!res)return res.redirect('404');
        res.condition.query = condition;
+
+       var n = 2;
+        jixiang.get({
+          query : {
+            cat:result.catCat
+          }
+         ,get : {
+            name: 1
+         }
+        },'qcat',function(err,doc){
+          if(err)doc=[];
+          result.catTag = doc;
+          --n || render(res.pageNum);
+        });
+
        jixiang.get(res.condition,'qa',function(err,doc){
          if(err)doc=[];
-         if(cat===1 && doc.length){
+         if(qcat===1 && doc.length){
             doc.forEach(function(item,index){
               item.replydate = utils.format.call(new Date(item.replydate),'yyyy-MM-dd hh:mm:ss');
             }); 
          }
-         console.log(doc)
          result.q = doc;
-         render(res.pageNum);
+         --n || render(res.pageNum);
        })
     });
     function render(){
@@ -143,11 +251,11 @@ exports.toslove = function(req,res){
         title : config.name
        ,user : req.session.user
        ,result : result 
-       ,cat : cat
+       ,qcat : qcat
       }
       if(arguments.length){
        renderData.pages = arguments[0];
-       renderData.pagenav = '/teach/'+req.session.user.username+'/question?cat='+cat+'&';
+       renderData.pagenav = '/teach/'+req.session.user.username+'/question?qcat='+qcat+'&';
       }
       res.render('./index/question_teach',renderData);
     }
@@ -206,6 +314,7 @@ exports.center = function(req,res){
     result.search = tag;
     if(req.query.keyword){
       query.q = new RegExp(req.query.keyword,'gi');
+      result.query = req.query.keyword;
     }
     query.isRobot = null;
     query.isAnswer = true;
@@ -238,7 +347,7 @@ exports.center = function(req,res){
         if(err)doc=[];
         result.catTag = doc;
         --n || render(pageNum);
-      })
+      });
       jixiang.get(condition,'qa',function(err,doc){
         if(err)doc=[];
         result.qa = doc;

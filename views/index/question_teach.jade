@@ -1,10 +1,40 @@
 extends ../layout/layout
 block content
   .main
-    //已解决的
-    if cat === 1
-      //已解决的问题
-      table.table.order-table
+    table.table.order-table
+      if (result.q && result.q.length) || (result.catCat || result.query)
+        thead.tab-title
+          tr.separate
+            th(colspan="5")
+          tr
+            th(colspan="5",style="text-align:left;padding:5px")
+              if qcat === 1 || qcat === 2
+                #select-cat.form-inline.fl-l
+                  select.fl-l(id="thecat",name="thecat")
+                    - var cats = ['全部','分类','章节','专题'];
+                    - var catNow = '';
+                    each item,index in cats
+                      -var selected = false
+                      if index == result.catCat
+                        -catNow = result.catCat
+                        -selected = true
+                      option(value=index,selected=selected)= item
+                  if result.catCat
+                    select(id="getCat",name="getCat")
+                      option(value="0") 请选择..
+                      each item in result.catTag
+                       -var selected = false
+                       if result.search == item.name
+                          -catNow = item.name
+                          -selected = true
+                        option(value=item.name,selected=selected)= item.name
+              if !!result.query
+                 -catNow = result.query
+              form#keyword-form.form-inline.fl-r.ajax-form(mehtod="post",action="/teach/#{user.username}/question?qcat=#{qcat}")
+                  input(id="keyword",name="keyword",type="text")
+                  button(type="submit",class="btn") 搜索
+      if qcat === 1
+        //已解决的问题
         if result.q && result.q.length
           caption 截至目前，已经解决了#{result.count}条同学提出的问题
           each item in result.q      
@@ -20,12 +50,11 @@ block content
               tr
                 td.q 回答：
                 td.aleft= item.a
+        else if !!catNow
+          caption 没有找到 【#{catNow}】相关的问题
         else
           caption 你暂时还没有解决过的问题哦
-      include ../layout/pagenav
-    if cat === 2
-      //未解决
-      table.table.order-table
+      if qcat === 2
         if result.q && result.q.length
           caption 你有#{result.count}条问题没有解决
           each item in result.q      
@@ -39,6 +68,8 @@ block content
               tr
                 td.q 问题：
                 td.aleft= item.q
+        else if !!catNow
+          caption 没有找到 【#{catNow}】相关的问题
         else
           caption 暂时还没有同学向你提问
-      include ../layout/pagenav
+    include ../layout/pagenav

@@ -1,4 +1,4 @@
-extends layout/layout
+extends ../layout/layout
 block content
   //内容区
   .main
@@ -6,7 +6,7 @@ block content
     if template === 1
       table.table.order-table
         caption #{catName}列表
-          a.fl-r.btn-reply(href="/admin/question/cat?cat=#{cat}&add=1") 添加新#{catName}
+          a.fl-r.btn-reply(href="/question/cat?cat=#{cat}&add=1") 添加新#{catName}
         thead.tab-title
           tr.separate
             th(colspan="5")
@@ -21,18 +21,18 @@ block content
                 td= item.name
                 td= item.description
                 td
-                  a.btn-reply(href="/admin/question/cat?cat=#{cat}&modify=1&id=#{item._id}") 修改
-                  a.btn-reply.btn-del(href="/admin/question/cat?del=1&id=#{item._id}") 删除
+                  a.btn-reply(href="/question/cat?cat=#{cat}&modify=1&id=#{item._id}") 修改
+                  a.btn-reply.btn-del(href="/question/cat?del=1&id=#{item._id}") 删除
           else
             tr
               td(colspan="3") 没有#{catName}信息
-                a(href="/admin/question/cat?cat=#{cat}&add=1") 点击添加#{catName}
+                a(href="/question/cat?cat=#{cat}&add=1") 点击添加#{catName}
     //增加新纪录
     if template === 2
-      form.form-inline.ajax-form(action="/admin/question/cat?cat=#{cat}&add=1",method="post")
+      form.form-inline.ajax-form(action="/question/cat?cat=#{cat}&add=1",method="post")
         table.table.order-table
           caption.bread
-            a.parent(href="/admin/question/cat?cat=#{cat}") #{catName}列表
+            a.parent(href="/question/cat?cat=#{cat}") #{catName}列表
             a &nbsp;»&nbsp;增加新#{catName}
           thead.tab-title
             tr.separate
@@ -52,10 +52,10 @@ block content
                 button.btn(type="submit") 增加
     //修改记录
     if template === 3
-      form.form-inline.ajax-form(action="/admin/question/cat?cat=#{cat}&modify=1&id=#{doc._id}",method="post")
+      form.form-inline.ajax-form(action="/question/cat?cat=#{cat}&modify=1&id=#{doc._id}",method="post")
         table.table.order-table
           caption.bread
-            a.parent(href="/admin/question/cat?cat=#{cat}") #{catName}列表
+            a.parent(href="/question/cat?cat=#{cat}") #{catName}列表
             a &nbsp;»&nbsp;修改新#{catName}
           thead.tab-title
             tr.separate

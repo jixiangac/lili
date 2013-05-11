@@ -10,12 +10,23 @@
       .plus
     ul
       li
-        a.item(href="/teach/#{user.username}/question?cat=1") 已解决
+        a.item(href="/teach/#{user.username}/question?qcat=1") 已解决
       li
-        a.item(href="/teach/#{user.username}/question?cat=2") 未解决
+        a.item(href="/teach/#{user.username}/question?qcat=2") 未解决
   div.category-item
-    .name
-      a(href="/q/center") 问题中心
+    .category.clearfix
+      .name
+        a(href="/question") 问题管理
+      .plus
+    ul
+      li
+        a.item(href="/question") 问题列表
+      li
+        a.item(href="/question/cat?cat=1") 分类列表
+      li
+        a.item(href="/question/cat?cat=2") 章节列表
+      li  
+        a.item(href="/question/cat?cat=3") 专题列表
   div.category-item
     .name 
       a(href="/teach/#{user.username}") 个人资料

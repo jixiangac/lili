@@ -3,7 +3,10 @@ html
   head
     meta(charset="utf-8")
     title #{title}
-    link(rel="stylesheet",href="/css/style.css")
+    if user && user.cat ===3
+      link(rel="stylesheet",href="/css/admin.css")
+    else
+      link(rel="stylesheet",href="/css/style.css")
     body
       if user
         .container.clearfix
@@ -13,9 +16,12 @@ html
               block content
             if user.cat === 1
               include sidebar
+            else if user.cat === 3
+              include sidebar_admin
             else
               include sidebar_teach
-          block link
+          if user.cat !== 3
+            block link
       else
         block content
       include footer

@@ -9,10 +9,12 @@ table.table.order-table
         #select-cat.form-inline.fl-l
           select.fl-l(id="thecat",name="thecat")
             - var cats = ['全部','分类','章节','专题'];
+            - var catNow = '';
             each item,index in cats
               -var selected = false
               if index == result.catCat
                 -selected = true
+                -catNow = result.catCat
               option(value=index,selected=selected)= item
           if result.catCat
             select(id="getCat",name="getCat")
@@ -21,7 +23,10 @@ table.table.order-table
                -var selected = false
                if result.search == item.name
                   -selected = true
+                  -catNow = item.name
                 option(value=item.name,selected=selected)= item.name
+          if !!result.query
+            -catNow = result.query
         form.form-inline.fl-r
             input(id="keyword",name="keyword",type="text")
             button(type="submit",class="btn") 搜索
@@ -44,7 +49,10 @@ table.table.order-table
           td= catCat
           td= catChapter
           td= catTopic
-          
+    else if !!catNow
+      tr
+        td(colspan='5')
+         a 没有找到【#{catNow}】相关的问题
     else
       tr
         td(colspan='5')

@@ -20,6 +20,10 @@ define(function(require,exports,module){
        new popbox.tinyTips('error','请选择老师');
        return false;
     }
+    if(formId == 'keyword-form'){
+      window.location.href = $(this).attr('action')+'&'+data;
+      return false;
+    }
     var tips = new popbox.tinyTips();
     $.ajax({
         url : $(this).attr('action')

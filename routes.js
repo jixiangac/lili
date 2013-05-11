@@ -124,12 +124,12 @@ module.exports = function(app){
   //------------------
   //     问题管理
   //------------------
-  app.get('/admin/question',adminQuestion.index);
+  app.get('/question',adminQuestion.index);
   app.post('/question',adminQuestion.index);
   //分类&章节&专题
-  app.get('/admin/question/cat',adminQuestion.cat);
-  app.post('/admin/question/cat',adminQuestion.cat);
-  app.get('/admin/question/cat/get',adminQuestion.getCat);
+  app.get('/question/cat',adminQuestion.cat);
+  app.post('/question/cat',adminQuestion.cat);
+  app.get('/question/cat/get',adminQuestion.getCat);
   //------------------
   //    友情链接
   //------------------

@@ -4,6 +4,8 @@
 define(function(require){
   // var $ = require('jquery');
   // window.$ = $;
+  var _host = document.getElementsByTagName('script')[0].src
+  window.host = _host.substring( 0,_host.indexOf('js') );
 
   var ajax = require('./models/ajax')
      ,popbox = require('./models/popbox')
@@ -154,12 +156,17 @@ define(function(require){
   $('#thecat').on('change',function(){
     var $this = $(this);
     if(!parseInt($this.val(),10)){//如果是全部跳转
-      window.location.href = window.location.pathname;
+      var url = window.location.href;
+      if( url.indexOf('qcat') > 0 ){
+        var qcat = ( url.indexOf('&') > 0 ) ? url.split('&')[0].split('=')[1] : url.split('=')[1];
+        window.location.href = window.location.pathname+'?qcat='+qcat;
+      }else{
+        window.location.href = window.location.pathname;
+      }
       return;
     }
-    var url = window.location.pathname+'/cat/get?cat='+$this.val();
+    var url = host+'q/center/cat/get?cat='+$this.val();
     $.get(url,function(res){
-       // console.log(res)
        if(res.success){
           var list = '';
           var name;
@@ -177,31 +184,15 @@ define(function(require){
     })
   });
   $('#select-cat').delegate('#getCat','change',function(){
-     window.location.href = window.location.pathname + '?cat='+$('#thecat').val()+'&tag='+this.value;
+     var url = window.location.href;
+     if( url.indexOf('qcat') > 0 ){
+        var qcat = ( url.indexOf('&') > 0 ) ? url.split('&')[0].split('=')[1] : url.split('=')[1];
+        window.location.href = window.location.pathname 
+                                 + '?qcat='+qcat+'&cat='+$('#thecat').val()+'&tag='+this.value;
+     }else{
+        window.location.href = window.location.pathname + '?cat='+$('#thecat').val()+'&tag='+this.value;
+     }
+     
   })
 
-  //提问老师的选择
-  $('#q-select').on('change',function(){
-     var $this = $(this);
-     if( !+$this.val() ){
-        $this.parent().find('#cat_children').remove();
-        return;
-     }
-     $.get('/q/center/cat/get?cat='+$this.val(),function(res){
-       if(res.success){
-          var list = '';
-          var name;
-          for(var i=0,len=res.list.length;i<len;i++){
-             name = res.list[i].name;
-             list += '<option value="'+name+'">'+name+'</option>';
-          }
-          var pa = $this.parent();
-          pa.find('#cat_children').remove();
-          if(list)
-            pa.append('<select name="cat_children" id="cat_children"><option value="无">无</option>'+list+'</select>');
-       }else{
-         alert('服务器卖萌了！');
-       }
-     })
-  });
 })

@@ -128,33 +128,33 @@ exports.index = function(req,res){
     }else{
       qdata.isAnswer = false;
     }
-    if(add !==0){ //增加问题
-      if(req.body.toteacher){
-        qdata.toteacher = req.body.toteacher;
-        if(typeof req.body.toteacher === 'string'){
-           jixiang.getOne({realname:req.body.toteacher},'users',function(err,doc){
-               if(err)console.log(err);
-               utils.email(doc.email,req.session.user.username+'向您提了一个问题！',qdata.q,'<p>'+qdata.q+'<a href="'+config.base+'teach/'+doc.username+'/question?cat=2">点击去回答这个问题</p>')
-           })
-        }else if(typeof req.body.toteacher === 'object'){
-           req.body.toteacher.forEach(function(item,index){
-              jixiang.getOne({realname:item},'users',function(err,doc){
-                 console.log(doc)
-                if(err)console.log(err);
-                utils.email(doc.email,req.session.user.username+'向您提了一个问题！',qdata.q,'<p>'+qdata.q+'<a href="'+config.base+'teach/'+doc.username+'/question?cat=2">点击去回答这个问题</p>')
-              })
-           })
-        }
-        qdata.askuser = req.session.user.username;
-        qdata.askdate = new Date()*1;
-        msg = '问题提交成功，请耐心等待老师回复！';
-        redirect = '/q/teacher';
+    if(req.body.toteacher){
+      qdata.toteacher = req.body.toteacher;
+      if(typeof req.body.toteacher === 'string'){
+         jixiang.getOne({realname:req.body.toteacher},'users',function(err,doc){
+             if(err)console.log(err);
+             utils.email(doc.email,req.session.user.username+'向您提了一个问题！',qdata.q,'<p>'+qdata.q+'<a href="'+config.base+'teach/'+doc.username+'/question?cat=2">点击去回答这个问题</p>')
+         })
+      }else if(typeof req.body.toteacher === 'object'){
+         req.body.toteacher.forEach(function(item,index){
+            jixiang.getOne({realname:item},'users',function(err,doc){
+              if(err)console.log(err);
+              utils.email(doc.email,req.session.user.username+'向您提了一个问题！',qdata.q,'<p>'+qdata.q+'<a href="'+config.base+'teach/'+doc.username+'/question?cat=2">点击去回答这个问题</p>')
+            })
+         })
       }
+      qdata.askuser = req.session.user.username;
+      qdata.askdate = new Date()*1;
+      msg = '问题提交成功，请耐心等待老师回复！';
+      redirect = '/q/teacher';
+    }
+    if(add !==0){ //增加问题
       jixiang.save(qdata,'qa',function(err,doc){
         if(err)return res.json({flg:0,msg:err});
         return res.json({flg:1,msg:msg,redirect:redirect});
       });
     }else if(info !==0){
+      console.log(qdata)
       if(!id)return;
       jixiang.update({
         query : {

@@ -20,13 +20,19 @@ block content
                 td.q 问题
                 td.aleft
                   textarea(style="width:270px;height:100px;",name="question")
-              tr
-                td 分类提问
-                td.aleft
-                  select.fl-l(id="q-select",name="thecat")
-                    - var cats = ['无','分类','章节','专题'];
-                    each item,index in cats
-                      option(value=index)= item 
+                -var catArray = {catCat:{name:'分类',is:1,cat:1},catChapter:{name:'章节',is:1,cat:2},catTopic:{name:'专题',is:1,cat:3} };
+                -for(key in catArray)
+                  tr
+                    td=catArray[key].name
+                    td.aleft
+                      if !!result.cat && result.cat.length
+                        -var list='';
+                        each item in result.cat
+                          if item.cat === catArray[key].cat
+                            -list += '<option value="'+item.name+'">'+item.name+'</option>';
+                      select(name=key)
+                        option(value="无") 无
+                        !{list}
               tr
                 td 提问给
                 td.aleft
@@ -42,10 +48,97 @@ block content
                 td
                 td.aleft
                   button.btn(type="submit") 提问
-    if template === 3
-      if cat === 1
-        //已解决的问题
+    if template === 5
+      //提问老师的问题修改
+      form#toteacher.form-inline.ajax-form(action="/question?info=1&id=#{result.qa._id}",method="post")
         table.table.order-table
+          caption.bread
+            a.parent 旧问题修改
+          thead.tab-title
+            tr.separate
+              th(colspan="2")
+          tbody
+            tr
+              td.q 问题
+              td.aleft
+                textarea(style="width:270px;height:100px;",name="question")= result.qa.q
+            -var catArray = {catCat:{name:'分类',is:1,cat:1},catChapter:{name:'章节',is:1,cat:2},catTopic:{name:'专题',is:1,cat:3} };
+            -for(key in catArray)
+              tr
+                td=catArray[key].name
+                td.aleft
+                  if !!result.cat && result.cat.length
+                    -var list='';
+                    each item in result.cat
+                      if item.cat === catArray[key].cat
+                        if item.name === result.qa[key]
+                          -list +='<option selected'
+                        else
+                          -list +='<option'
+                        -list += ' value="'+item.name+'">'+item.name+'</option>';
+                    if !!list
+                      select(name=key)
+                        option(value="无") 无
+                        !{list}
+                    else
+                      select(name=key)
+                        option(value="无") 无
+                  else
+                    select(name=key)
+                        option(value="无") 无
+            tr
+              td 提问给
+              td.aleft
+                if result.teacher && result.teacher.length
+                    each item in result.teacher
+                      -var checked = false
+                      if !!result.qa.toteacher && result.qa.toteacher.indexOf(item.realname) !== -1
+                        - checked = true
+                      label(for="#{item._id}")
+                        input(type="checkbox",id=item._id,value="#{item.realname}",name="toteacher",checked=checked)
+                        |#{item.realname}
+
+                else
+                  |暂无老师
+            tr
+              td
+              td.aleft
+                button.btn(type="submit") 修改
+    if template === 3
+      table.table.order-table
+        if (result.q && result.q.length) || (result.catCat || result.query)
+          thead.tab-title
+            tr.separate
+              th(colspan="5")
+            tr
+              th(colspan="5",style="text-align:left;padding:5px")
+                if qcat === 1 || qcat === 2
+                  #select-cat.form-inline.fl-l
+                    select.fl-l(id="thecat",name="thecat")
+                      - var cats = ['全部','分类','章节','专题'];
+                      - var catNow = '';
+                      each item,index in cats
+                        -var selected = false
+                        if index == result.catCat
+                          -catNow = result.catCat
+                          -selected = true
+                        option(value=index,selected=selected)= item
+                    if result.catCat
+                      select(id="getCat",name="getCat")
+                        option(value="0") 请选择..
+                        each item in result.catTag
+                         -var selected = false
+                         if result.search == item.name
+                            -catNow = item.name
+                            -selected = true
+                          option(value=item.name,selected=selected)= item.name
+                if !!result.query
+                   -catNow = result.query
+                form#keyword-form.form-inline.fl-r.ajax-form(mehtod="post",action="/stu/#{user.username}/question?qcat=#{qcat}")
+                    input(id="keyword",name="keyword",type="text")
+                    button(type="submit",class="btn") 搜索
+        if qcat === 1
+          //已解决的问题
           if result.q && result.q.length
             caption 你有#{result.count}条问题被解决了
             each item in result.q      
@@ -62,34 +155,37 @@ block content
                 tr
                   td.q 回答：
                   td.aleft= item.a
+          else if !!catNow
+            caption 没有找到 【#{catNow}】相关的问题
           else
-            caption 你太懒了吧，还从没提问过问题啊！
-        include ../layout/pagenav        
-      if cat === 2
-        //未解决的问题
-        table.table.order-table
+            caption 你太懒了吧，还从没提问过问题啊！        
+        if qcat === 2
+          //未解决的问题
           if result.q && result.q.length
-            caption 你还有#{result.count}条未解决的问题
+            caption 你还有#{result.count}条未解决的问题            
             each item in result.q      
               tbody
                 tr.separate
                 tr.tab-head
-                  td(colspan="2")
+                  td(colspan="3")
                     a 该问题提交给了
                      span.pink【#{item.toteacher}】
                      |，正在等待回复
                 tr
                   td.q 问题：
                   td.aleft= item.q
+                  td.span10
+                    a.btn-reply(href="/q/teacher?info=1&id=#{item._id}") 修改
+                    a.btn-reply.btn-del(href="/question?del=1&id=#{item._id}") 删除
+          else if !!catNow
+            caption 没有找到 【#{catNow}】相关的问题
           else
             caption 你没有未解决的问题，去提个问题吧～
-        include ../layout/pagenav
-      if cat === 3
-        //机器人类别的问题
-        table.table.order-table
+        if qcat === 3
+          //机器人类别的问题
           if result.q && result.q.length
             caption 你还有#{result.count}条对机器人的提问未解决
-              a.pink.fl-r(href="/stu/#{user.username}/question?cat=4") 查看已解决的
+              a.pink.fl-r(href="/stu/#{user.username}/question?qcat=4") 查看已解决的
             each item in result.q      
               tbody
                 tr.separate
@@ -99,16 +195,16 @@ block content
                 tr
                   td.q 问题：
                   td.aleft= item.q
+          else if !!catNow
+            caption 没有找到 【#{catNow}】相关的问题
           else
             caption 没有对机器人的未解决的问题，
-              a.pink(href="/stu/#{user.username}/question?cat=4") 查看已解决的
-        include ../layout/pagenav
-      if cat === 4
-        //机器人类别的问题，已经解决
-        table.table.order-table
+              a.pink(href="/stu/#{user.username}/question?qcat=4") 查看已解决的
+        if qcat === 4
+          //机器人类别的问题，已经解决
           if result.q && result.q.length
             caption 你还有#{result.count}条对机器人的提问未解决
-              a.pink.fl-r(href="/stu/#{user.username}/question?cat=3") 查看未解决的
+              a.pink.fl-r(href="/stu/#{user.username}/question?qcat=3") 查看未解决的
             each item in result.q      
               tbody
                 tr.separate
@@ -121,10 +217,12 @@ block content
                 tr
                   td.q 答复
                   td.aleft= item.a
+          else if !!catNow
+            caption 没有找到 【#{catNow}】相关的问题
           else
             caption 没有对机器人的已解决的问题，
-              a.pink(href="/stu/#{user.username}/question?cat=3") 查看未解决的
-        include ../layout/pagenav
+              a.pink(href="/stu/#{user.username}/question?qcat=3") 查看未解决的
+      include ../layout/pagenav
     if template === 4
       include question_center
 

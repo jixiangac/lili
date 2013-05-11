@@ -1,4 +1,4 @@
-extends layout/layout
+extends ../layout/layout
 block content
   //内容区
   .main
@@ -6,7 +6,7 @@ block content
     if template === 1
       table.table.order-table
         caption 问题列表
-          a.fl-r.btn-reply(href="/admin/question?add=1") 添加新问题
+          a.fl-r.btn-reply(href="/question?add=1") 添加新问题
         thead.tab-title
           tr.separate
             th(colspan="5")
@@ -48,19 +48,19 @@ block content
                 td= catChapter
                 td= catTopic
                 td
-                  a.btn-reply(href="/admin/question?info=1&id=#{item._id}") 查看
+                  a.btn-reply(href="/question?info=1&id=#{item._id}") 查看
                   a.btn-reply.btn-del(href="/question?del=1&id=#{item._id}") 删除
           else
             tr
               td(colspan='5') 还没有问题，
-               a(href="/admin/question?add=1") 点击这里添加问题
+               a(href="/question?add=1") 点击这里添加问题
       include ../layout/pagenav
     //添加新问题
     if template === 2
       form.form-inline.ajax-form(action="/question?add=1",method="post")
         table.table.order-table
           caption.bread
-            a.parent(href="/admin/question") 问题列表
+            a.parent(href="/question") 问题列表
             a &nbsp;»&nbsp;增加新问题
           thead.tab-title
             tr.separate
@@ -86,10 +86,10 @@ block content
                         !{list}
                     else
                       | 还没有#{catArray[key].name}，
-                      a(href="/admin/question/cat?cat=#{catArray[key].cat}&add=") 点击这里添加#{catArray[key].name}
+                      a(href="/question/cat?cat=#{catArray[key].cat}&add=") 点击这里添加#{catArray[key].name}
                   else
                     | 还没有#{catArray[key].name}，
-                    a(href="/admin/question/cat?cat=#{catArray[key].cat}&add=") 点击这里添加#{catArray[key].name}
+                    a(href="/question/cat?cat=#{catArray[key].cat}&add=") 点击这里添加#{catArray[key].name}
             tr
               td 解答
               td.aleft
@@ -103,7 +103,7 @@ block content
       form.form-inline.ajax-form(action="/question?info=1&id=#{result.qa._id}",method="post")
         table.table.order-table
           caption.bread
-            a.parent(href="/admin/question") 问题列表
+            a.parent(href="/question") 问题列表
             a &nbsp;»&nbsp;修改新问题
           thead.tab-title
             tr.separate
@@ -133,10 +133,10 @@ block content
                         !{list}
                     else
                       | 还没有#{catArray[key].name}，
-                      a(href="/admin/question/cat?cat=#{catArray[key].cat}&add=") 点击这里添加#{catArray[key].name}
+                      a(href="/question/cat?cat=#{catArray[key].cat}&add=") 点击这里添加#{catArray[key].name}
                   else
                     | 还没有#{catArray[key].name}，
-                    a(href="/admin/question/cat?cat=#{catArray[key].cat}&add=") 点击这里添加#{catArray[key].name}
+                    a(href="/question/cat?cat=#{catArray[key].cat}&add=") 点击这里添加#{catArray[key].name}
             tr
               td 解答
               td.aleft
