@@ -84,7 +84,7 @@ exports.forgot = function(req,res){
   }else if(req.method == 'POST'){
      var email = req.body.email;
      jixiang.getOne({email:email},'users',function(err,doc){
-        if(err)return res.json({flg:0,msg:'没有这个邮箱！'});
+        if(err || !doc)return res.json({flg:0,msg:'邮箱不存在！'});
 
         var md5 = crypto.createHash('md5');
         var date = new Date().getTime();
