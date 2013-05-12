@@ -121,7 +121,7 @@ exports.index = function(req,res){
      ,catChapter : req.body.catChapter || ''
      ,catTopic : req.body.catTopic || ''
     }
-    var msg = '增加成功！',redirect = '/admin/question';
+    var msg = '增加成功！',redirect = '/question';
     if(req.body.answer){
       qdata.a = req.body.answer.trim();
       qdata.isAnswer = true;
@@ -244,7 +244,7 @@ exports.cat = function(req,res){
     if(add !==0){//增加类别
       jixiang.save(catData,'qcat',function(err,doc){
         if(err)return res.json({flg:0,msg:err});
-        return res.json({flg:1,msg:'新增成功！',redirect:'/admin/question/cat?cat='+cat});
+        return res.json({flg:1,msg:'新增成功！',redirect:'/question/cat?cat='+cat});
       });
     }else if(modify !==0){//修改
       if(!id)return;
