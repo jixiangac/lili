@@ -43,11 +43,13 @@ var index = function(req,res){
       userdata.school = req.body.school;
     }
     jixiang.getOne({
-       username:userdata.username
-      ,cat : cat
+       '$or' : [
+         { username : userdata.username }
+        ,{ email : userdata.email }
+       ]
     },'users',function(err,doc){
       if(doc){
-        err = '用户名已经存在!';
+        err = '用户名或者邮箱已经存在!';
       }
       if(err){
         return res.json({flg:0,msg:err});
@@ -111,11 +113,8 @@ exports.setpass = function(req,res){
   var email = req.query.email;
   if(req.method == 'GET'){
     var setpass = '';
-    console.log(key)
-    console.log(email)
     jixiang.getOne({email:email,retrieve_key:key},'users',function(err,doc){
       if(err)console.log(err);
-      console.log(doc)
       if(!doc || !doc.retrieve_time || (doc.retrieve_time - new Date().getTime() > 3600*24*1000) ){
          setpass = '信息有误或者链接已经失效！请重新申请！';
       }

@@ -83,7 +83,6 @@ exports.ask = function(req,res){
         ,template : template
         ,result : result
       }
-      console.log(renderData.result.qa)
       res.render('./index/question',renderData);
     }
   }else if(req.method == 'POST'){
@@ -93,19 +92,17 @@ exports.ask = function(req,res){
 
 exports.noslove = function(req,res){
   if(req.method == 'GET'){
-
     var result = {};
     var qcat = parseInt(req.query.qcat,10) || 1;//问题类别
     result.catCat = parseInt(req.query.cat,10) || null;//题目分类
 
     var tag = req.query.tag || '';//分类&章节&专题名称
-
     var condition = {
        askuser : req.session.user.username
       ,isAnswer : (qcat===1)
       ,isRobot : null
     };
-
+   
     if(result.catCat){
       switch(result.catCat){
         case 1 : 
@@ -134,6 +131,7 @@ exports.noslove = function(req,res){
        if(!res)return res.redirect('404');
        res.condition.query = condition;
        var n = 2;
+      
         jixiang.get({
           query : {
             cat:result.catCat
@@ -144,7 +142,24 @@ exports.noslove = function(req,res){
         },'qcat',function(err,doc){
           if(err)doc=[];
           result.catTag = doc;
-          --n || render(res.pageNum);
+
+          if(qcat === 1 && req.session.user.cat === 1 ){
+            jixiang.update({
+              query : {
+                _id : req.session.user._id
+              }
+             ,modify : {
+               '$set' : {
+                  msgbox : 0
+               }
+             }
+            },'users',function(err){
+              req.session.user.msgbox = 0;
+              --n || render(res.pageNum);
+            });
+          }else{
+            --n || render(res.pageNum);
+          }
         });
 
        jixiang.get(res.condition,'qa',function(err,doc){
@@ -190,7 +205,6 @@ exports.toslove = function(req,res){
     }else{
       condition.toteacher = req.session.user.realname;
     }
-
     condition.isAnswer = (qcat === 1);
 
     result.catCat = parseInt(req.query.cat,10) || null;//题目分类
@@ -222,6 +236,7 @@ exports.toslove = function(req,res){
        res.condition.query = condition;
 
        var n = 2;
+
         jixiang.get({
           query : {
             cat:result.catCat
@@ -237,7 +252,7 @@ exports.toslove = function(req,res){
 
        jixiang.get(res.condition,'qa',function(err,doc){
          if(err)doc=[];
-         if(qcat===1 && doc.length){
+         if( qcat===1 && doc.length){
             doc.forEach(function(item,index){
               item.replydate = utils.format.call(new Date(item.replydate),'yyyy-MM-dd hh:mm:ss');
             }); 
@@ -259,7 +274,7 @@ exports.toslove = function(req,res){
       }
       res.render('./index/question_teach',renderData);
     }
-  }if(req.method == 'POST'){
+  }else if(req.method == 'POST'){
      var condition = {};
      condition.query = {
         _id : parseInt(req.body.id,10)
@@ -274,15 +289,33 @@ exports.toslove = function(req,res){
      }
      jixiang.getOne({_id:condition.query._id},'qa',function(err,doc){
        if(err)console.log(err);
+
        jixiang.getOne({username:doc.askuser},'users',function(err,user){
           if(err)console.log(err);
+          //盒子消息
+          jixiang.selfplus(user._id,
+          {
+           update : {
+              msgbox : 1
+           }
+          },'users',function(err){});
+          
+          //老师盒子消息减1
+          jixiang.selfplus(req.session.user._id,
+            {
+              update : {
+                msgbox : -1
+              }
+            },'users',function(err){});
+
+          //回答问题后发EMAIL通知
           var html = '<p><b>你的问题是：'+doc.q+'</b></p>'+
                      '<p><b>'+req.session.user.realname+'的回答是：</b>'+req.body.answer +'</p>'+
                      '<p>'+
                        '<a href="'+config.base+'stu/'+user.username+'/question?cat=1">点击这里查看</a>'+
                      '</p>';
           utils.email(user.email,req.session.user.realname+'回答了你的问题，快来看看吧！',req.body.answer,html);
-       })
+       });
      });
      jixiang.update(condition,'qa',function(err){
        if(err)return res.json({flg: 0,msg: err});
@@ -373,4 +406,20 @@ exports.center = function(req,res){
   }else if(req.method === 'POST'){
 
   }
+}
+
+//消息盒子
+exports.msgbox = function(req,res){
+  jixiang.getOne({
+    _id : req.session.user._id
+  },'users',function(err,doc){
+    if(err)doc = [];
+    var num = (!!doc&&doc.msgbox) ? doc.msgbox : 0;
+    return res.json({
+       success:true 
+      ,num : num
+      ,name : req.session.user.username
+      ,cat : req.session.user.cat
+    });
+  });
 }

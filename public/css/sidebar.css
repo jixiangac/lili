@@ -46,6 +46,19 @@
   display:block;
   line-height: 41px;
   padding-left: 20px;
+  position: relative;
+}
+.category-item li .item span{
+    background: #dd633c;
+    border-radius: 9px;
+    color: #fff;
+    height: 18px;
+    left: 60px;
+    line-height: 18px;
+    position: absolute;
+    text-align: center;
+    top: 9px;
+    width: 18px;
 }
 .category-item li:hover{
   background: #fafafa;

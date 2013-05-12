@@ -140,7 +140,14 @@ define(function(require){
             setTimeout(function(){
               tbody.fadeOut();
             },1500);
-            
+            $('#msgbox').remove();
+            var msgNumWrap = $('#msg-box span');
+            var msgNum = parseInt(msgNumWrap.text(),10);
+            if(!(--msgNum)){
+              msgNumWrap.remove();
+            }else{
+              msgNumWrap.text(msgNum);
+            }
           }else{
             new popbox.tinyTips('error',res.msg);
           }
@@ -193,6 +200,34 @@ define(function(require){
         window.location.href = window.location.pathname + '?cat='+$('#thecat').val()+'&tag='+this.value;
      }
      
-  })
+  });
 
+  //MSGBOX
+  getMsgNum();
+  function getMsgNum(){
+    if( document.getElementById('header') && !document.getElementById('msgbox') ){
+      $.get('/q/msgbox',function(res){
+         if(res.success){
+            var url = '',msg = '';
+            if(!res.num)return;
+            if(res.cat === 1){
+              url = '/stu/'+ res.name +'/question?qcat=1';
+              msg = '你有'+ res.num +'条问题被回答了，点击查看';
+            }else{
+              url = '/teach/'+res.name+'/question?qcat=2';
+              msg = '你还有'+res.num+'条问题未解决，点击查看';
+            }
+            if($('#msg-box').find('span').length)$('#msg-box span').remove();
+            $('#msg-box').append('<span>'+res.num+'</span>');
+            var msgbox = $('<div id="msgbox"><a href="'+url+'">'+msg+'</a></div>').appendTo('body');
+            msgbox.stop(true,false).animate({
+              top : 20
+            },800,function(){});
+         }
+      },'json');
+    }
+    setTimeout(function(){
+      getMsgNum();
+    },15000)
+  }
 })

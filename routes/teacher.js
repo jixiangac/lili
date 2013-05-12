@@ -7,6 +7,7 @@ var jixiang = require('../models/base')
    ,format = require('../models/utils').format;
 
 exports.index = function(req,res){
+     console.log(req.session.user)
   if(req.method == 'GET'){
     var n = 2;
     var result = {};

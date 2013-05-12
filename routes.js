@@ -39,7 +39,7 @@ module.exports = function(app){
   //--------------------
   //    个人资料
   //--------------------
-  // app.all('/stu/*',checkLogin);
+  app.all('/stu/*',checkLogin);
   app.get('/stu/:username',student.index);
   app.post('/stu/:username',student.index);
   //-------------------
@@ -53,7 +53,7 @@ module.exports = function(app){
   //------------------------
   app.get('/q/center',question.center);
   app.get('/q/center/cat/get',adminQuestion.getCat);
-
+  app.get('/q/msgbox',question.msgbox);
   //------------------
   //   给老师提问
   //------------------
@@ -69,18 +69,18 @@ module.exports = function(app){
   //-------------------
   //   老师首页
   //-------------------
-  // app.all(/\/teach\/?\w*/,function(req,res,next){
-  //   if(!!req.session.user){
-  //      if(req.session.user.cat === 1){
-  //         return res.redirect('/');
-  //      }else if(req.session.user.cat === 3){
-  //         return res.redirect('/admin');
-  //      }
-  //     next();
-  //   }else{
-  //     return res.redirect('/');
-  //   }
-  // });
+  app.all(/\/teach\/?\w*/,function(req,res,next){
+    if(!!req.session.user){
+       if(req.session.user.cat === 1){
+          return res.redirect('/');
+       }else if(req.session.user.cat === 3){
+          return res.redirect('/admin');
+       }
+      next();
+    }else{
+      return res.redirect('/');
+    }
+  });
   app.get('/teach',teacher.index);
   //--------------------
   //     个人资料-老师
@@ -94,12 +94,12 @@ module.exports = function(app){
   /*===================
           后台路由
     ===================*/
-  // app.all(/\/admin\/?\w*/,function(req,res,next){
-  //   if(!req.session.user || req.session.user.cat !==3){
-  //      return res.redirect('/');
-  //   }
-  //   next();
-  // });
+  app.all(/\/admin\/?\w*/,function(req,res,next){
+    if(!req.session.user || req.session.user.cat !==3){
+       return res.redirect('/');
+    }
+    next();
+  });
   //-------------------
   //       首页
   //-------------------
@@ -139,7 +139,7 @@ module.exports = function(app){
   //     退出
   //-----------------
   app.get('/logout',function(req,res){
-    req.session.user = null;
+    req.session.destroy();
     return res.redirect('/');
   })
 }

@@ -13,6 +13,7 @@
    width: 980px;
    margin: 0 auto;
  }
+
  /*头部*/
 #header h1{
   text-align: center;
@@ -38,6 +39,16 @@
   float: left;
   margin-left: -100%;
   background:#f7f7f7;
+}
+
+/*msgbox*/
+#msgbox{
+  background: #F1F2F4;
+  border: 2px solid #ccc;
+  padding: 5px 20px;
+  position: fixed;
+  right: 200px;
+  top: -40px;
 }
 /* = 底部
 --------------------------*/

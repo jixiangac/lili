@@ -103,7 +103,7 @@ exports.index = function(req,res){
       }
       if(arguments.length){
        renderData.pages = arguments[0];
-       renderData.pagenav = '/admin/question?';
+       renderData.pagenav = '/question?';
       }
       res.render('./admin/question',renderData);      
     }
@@ -133,15 +133,33 @@ exports.index = function(req,res){
       if(typeof req.body.toteacher === 'string'){
          jixiang.getOne({realname:req.body.toteacher},'users',function(err,doc){
              if(err)console.log(err);
-             utils.email(doc.email,req.session.user.username+'向您提了一个问题！',qdata.q,'<p>'+qdata.q+'<a href="'+config.base+'teach/'+doc.username+'/question?cat=2">点击去回答这个问题</p>')
-         })
+             utils.email(doc.email,req.session.user.username+'向您提了一个问题！',qdata.q,'<p>'+qdata.q+'<a href="'+config.base+'teach/'+doc.username+'/question?cat=2">点击去回答这个问题</p>'); 
+             
+             jixiang.selfplus(doc._id,
+             {
+               update : {
+                  msgbox : 1
+               }
+             },'users',function(err){});
+             
+
+         });
+
       }else if(typeof req.body.toteacher === 'object'){
          req.body.toteacher.forEach(function(item,index){
             jixiang.getOne({realname:item},'users',function(err,doc){
               if(err)console.log(err);
-              utils.email(doc.email,req.session.user.username+'向您提了一个问题！',qdata.q,'<p>'+qdata.q+'<a href="'+config.base+'teach/'+doc.username+'/question?cat=2">点击去回答这个问题</p>')
-            })
-         })
+              utils.email(doc.email,req.session.user.username+'向您提了一个问题！',qdata.q,'<p>'+qdata.q+'<a href="'+config.base+'teach/'+doc.username+'/question?cat=2">点击去回答这个问题</p>');
+
+             jixiang.selfplus(doc._id,
+             {
+               update : {
+                  msgbox : 1
+               }
+             },'users',function(err){});
+
+            });
+         });
       }
       qdata.askuser = req.session.user.username;
       qdata.askdate = new Date()*1;
@@ -154,7 +172,6 @@ exports.index = function(req,res){
         return res.json({flg:1,msg:msg,redirect:redirect});
       });
     }else if(info !==0){
-      console.log(qdata)
       if(!id)return;
       jixiang.update({
         query : {

@@ -14,12 +14,11 @@ var index = function(req,res){
        render();
        return;
     }
-
-    // if(req.session.user.cat === 2){
-    //   return res.redirect('/teach');
-    // }else if(req.session.user.cat === 3){
-    //   return res.redirect('/admin');
-    // }
+    if(req.session.user.cat === 2){
+      return res.redirect('/teach');
+    }else if(req.session.user.cat === 3){
+      return res.redirect('/admin');
+    }
     //公告
     jixiang.get({
       sort:{release_time:-1}
@@ -66,8 +65,6 @@ var index = function(req,res){
                 && date.getMonth() === first.getMonth()
                 && date.getDate() === first.getDate() ){
                list[firstDate]++;
-             console.log('after')
-             console.log(list[firstDate])
            }else{
               first = new Date(item.askdate);
               firstDate = utils.format.call(first,'yyyy-MM-dd');
@@ -124,16 +121,3 @@ var index = function(req,res){
 }
 
 exports.index = index;
-
-//测试
-exports.test = function(req,res){
-   // var jixiang1 = new jixiang();
-  if(req.method == 'GET'){
-    res.render('./index/test',{
-      title : '测试'
-     ,user : req.session.user
-    });
-  }else if(req.method == 'POST'){
-    
-  }
-}
