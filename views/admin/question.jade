@@ -145,6 +145,35 @@ block content
               td
               td.aleft
                 button.btn(type="submit") 修改    
+    //robot
+    if template === 4
+      table.table.order-table
+        caption 机器人问题列表
+        thead.tab-title
+          tr.separate
+            th(colspan="5")
+          tr
+            th 问题
+            th 分类
+            th 章节
+            th 专题
+            th 操作
+        tbody
+          if !!result.qa && result.qa.length
+            each item in result.qa
+              -var catCat = item.catCat || '无',catChapter = item.catChapter || '无',catTopic = item.catTopic || '无';
+              tr
+                td.q= item.q
+                td= catCat
+                td= catChapter
+                td= catTopic
+                td
+                  a.btn-reply(href="/question?info=1&id=#{item._id}") 回答
+                  a.btn-reply.btn-del(href="/question?del=1&id=#{item._id}") 删除
+          else
+            tr
+              td(colspan='5') 还没有问题，
+      include ../layout/pagenav
 
 
             

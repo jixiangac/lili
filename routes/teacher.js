@@ -9,7 +9,7 @@ var jixiang = require('../models/base')
 exports.index = function(req,res){
      console.log(req.session.user)
   if(req.method == 'GET'){
-    var n = 2;
+    var n = 3;
     var result = {};
     //公告
     jixiang.get({
@@ -25,6 +25,12 @@ exports.index = function(req,res){
     },'notice',function(err,doc){
       if(err)doc=[];
       if(doc.length)result.notice = doc[0].content;
+      --n || render();
+    });
+    //友情链接
+    jixiang.get({},'links',function(err,doc){
+      if(err)doc=[];
+      result.links = doc;
       --n || render();
     });
     //获取被提问数据

@@ -52,10 +52,11 @@ exports.index = function(req,res){
       }
     }
     result.search = tag;
-
+    
     if(req.query.keyword){
       query.q = new RegExp(req.query.keyword,'gi');
     }
+    query.isRobot = null;
     jixiang.count(query,'qa',function(err,count){
       if(err)return res.json({flg:0,msg:err});
       // 分页
@@ -278,4 +279,51 @@ exports.getCat = function(req,res){
   }else if(req.method === 'POST'){
     
   }
+}
+
+exports.robot = function(req,res){
+    var result = {};
+    var query = {
+      isRobot : true
+    };
+    if(req.query.keyword){
+      query.q = new RegExp(req.query.keyword,'gi');
+    }
+    jixiang.count(query,'qa',function(err,count){
+      if(err)return res.json({flg:0,msg:err});
+      // 分页
+      var pages = parseInt(req.query.page,10) || 1;
+      var condition = {
+         skip : (pages-1)*7
+        ,limit : 7
+      }
+      var pageNum = {
+         max : Math.ceil(count/7) ? Math.ceil(count/7) : 1
+        ,cur : pages
+        ,next : pages+1
+        ,prev : pages-1
+      }
+      condition.query = query;
+      if(pageNum.cur > pageNum.max)return;
+
+      jixiang.get(condition,'qa',function(err,doc){
+        if(err)doc=[];
+        result.qa = doc;
+        render(pageNum);
+      });
+
+    });
+    function render(){
+      var renderData = {
+        title : config.name + '问题管理'
+       ,user : req.session.user
+       ,template : 4
+       ,result : result
+      }
+      if(arguments.length){
+       renderData.pages = arguments[0];
+       renderData.pagenav = '/question?';
+      }
+      res.render('./admin/question',renderData);      
+    }
 }

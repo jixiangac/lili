@@ -7,6 +7,14 @@ block content
         .grey-tips.red 公告：#{result.notice}
       input(id="data-charts",value="#{result.total}",type="hidden",data-flg="teach")
       #charts
+block link
+  if result.links && result.links.length
+    .container.link
+      h2.hbt 友情链接
+      ul.clearfix
+        each item in result.links
+          li
+            a(href=item.url,target="_blank",title=item.description)=item.name
     if template === 2
         form.form-inline.ajax-form(action="/user/info?front=2&cat=2&uid="+people._id,method="post")
           table.table.order-table

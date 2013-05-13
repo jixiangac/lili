@@ -126,6 +126,7 @@ module.exports = function(app){
   //------------------
   app.get('/question',adminQuestion.index);
   app.post('/question',adminQuestion.index);
+  app.get('/question/robot',adminQuestion.robot);
   //分类&章节&专题
   app.get('/question/cat',adminQuestion.cat);
   app.post('/question/cat',adminQuestion.cat);
